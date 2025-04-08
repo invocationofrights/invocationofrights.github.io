@@ -1,44 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Invocation of Rights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
     <style>
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 40px;
-            line-height: 1.6;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #f9f9f9;
+            color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
         }
+
         h1 {
-            color: #2c3e50;
-            font-size: 2.5em;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-align: center;
         }
-        .script {
-            font-size: 1.3em;
-            margin: 20px 0;
-            background: #f5f5f5;
-            padding: 15px;
-            border-radius: 5px;
-        }
-        .cta {
-            margin-top: 30px;
-            font-style: italic;
+
+        p.tagline {
+            font-size: 1.2rem;
             color: #666;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        blockquote {
+            background: #fff;
+            padding: 1.5rem;
+            border-left: 4px solid #555;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            font-size: 1.25rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+
+        blockquote p {
+            margin: 0.5rem 0;
+        }
+
+        footer {
+            font-size: 0.9rem;
+            color: #888;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            blockquote {
+                font-size: 1.1rem;
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
+<main>
     <h1>The Invocation of Rights</h1>
-    <p>Four simple lines to protect yourself—anytime, anywhere.</p>
-    <div class="script">
+    <p class="tagline">Four simple lines to protect yourself—anytime, anywhere.</p>
+    <blockquote>
         <p>🤐 I invoke my right to remain silent.</p>
         <p>⚖️ I invoke my right to a lawyer.</p>
         <p>🔍 I don’t consent to any searches.</p>
         <p>🚪 I want to leave. Am I free to go?</p>
-    </div>
-    <p>Memorize it. Share it. Make it a norm—like “stop, drop, and roll.”</p>
-    <p class="cta">Got ideas? Join us to build this movement.</p>
+    </blockquote>
+    <footer>
+        Memorize it. Share it. Make it a norm—like “stop, drop, and roll.”
+    </footer>
+</main>
 </body>
 </html>
