@@ -2,65 +2,72 @@
 import './globals.css';
 import Script from 'next/script';
 import Link from 'next/link';
+import type { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Invocation of Rights',
   description: 'A simple site to teach the four-line script of constitutional rights.',
 };
 
-export default function RootLayout({
-                                     children,
-                                   }: {
-  children: React.ReactNode;
-}) {
+const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="bg-[--background] text-[--foreground]">
     <head>
-      {/*
-          Insert the GTM script in the <head>.
-          "strategy" can be afterInteractive or lazyOnload.
-        */}
+      {/* Google Tag Manager Script */}
       <Script id="gtm-script" strategy="afterInteractive">
         {`
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
             j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','${process.env.GTM_ID}');
+            })(window,document,'script','dataLayer','${GTM_ID}');
           `}
       </Script>
     </head>
-    <body>
-    {/*
-          Insert the noscript fallback at the start of <body>
-          (Google recommends near the opening <body>).
-        */}
+    <body className="min-h-screen font-sans antialiased">
+    {/* Google Tag Manager <noscript> fallback */}
     <noscript>
       <iframe
-        src={`https://www.googletagmanager.com/ns.html?id=${process.env.GTM_ID}`}
+        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
         height="0"
         width="0"
         style={{display: 'none', visibility: 'hidden'}}
       />
     </noscript>
 
-    <header style={{padding: '1rem', borderBottom: '1px solid #ccc'}}>
-      <nav>
-        <Link href="/">Home</Link> |{' '}
-        <Link href="/why">Why</Link> |{' '}
-        <Link href="/legal">Legal</Link> |{' '}
-        <Link href="/for-officers">For Officers</Link> |{' '}
-        <Link href="/advisors">Advisors</Link> |{' '}
-        <Link href="/supporters">Supporters</Link> |{' '}
-        <Link href="/resources">Resources</Link> |{' '}
-        <Link href="/manual">Manual</Link>
-      </nav>
+    <header className="border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-black">
+      <div className="max-w-3xl mx-auto px-4 py-3">
+        <nav className="flex flex-wrap gap-4 text-sm font-medium justify-center sm:justify-start">
+          {[
+            ['Home', '/'],
+            ['Why', '/why'],
+            ['Legal', '/legal'],
+            ['For Officers', '/for-officers'],
+            ['Advisors', '/advisors'],
+            ['Supporters', '/supporters'],
+            ['Resources', '/resources'],
+            ['Manual', '/manual'],
+          ].map(([label, href]) => (
+            <Link
+              key={href}
+              href={href}
+              className="text-[--foreground] hover:text-blue-600 transition"
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+      </div>
     </header>
 
-    <main>{children}</main>
+    <main className="max-w-3xl mx-auto px-4 py-10">{children}</main>
 
-    <footer style={{padding: '1rem', borderTop: '1px solid #ccc', marginTop: '1rem'}}>
-      <p>© {new Date().getFullYear()} Invocation of Rights. Not legal advice.</p>
+    <footer className="border-t border-neutral-200 dark:border-neutral-800 py-6 mt-10 text-xs text-neutral-500">
+      <div className="max-w-3xl mx-auto px-4 text-center">
+        © {new Date().getFullYear()} Invocation of Rights. Not legal advice.
+      </div>
     </footer>
     </body>
     </html>
