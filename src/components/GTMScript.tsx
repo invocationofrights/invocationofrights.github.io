@@ -3,12 +3,13 @@
 
 import Script from 'next/script';
 import logger from '@/lib/logger';
+import { SITE } from '@/config/site';
 
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const GTM_ID = SITE.GTM_ID;
 
 export default function GTMScript() {
   if (!GTM_ID) {
-    logger.warn('GTM initialisation skipped –NEXT_PUBLIC_GTM_ID not set');
+    logger.warn('GTM initialisation skipped – SITE.GTM_ID not set');
     return null;
   }
 
