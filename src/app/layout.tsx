@@ -44,11 +44,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             ['Home', '/'],
             ['Why', '/why'],
             ['Legal', '/legal'],
+            ['How-to', '/how-to'],
             ['For Officers', '/for-officers'],
-            ['Advisors', '/advisors'],
-            ['Supporters', '/supporters'],
             ['Resources', '/resources'],
-            ['Manual', '/manual'],
+            ['Get Involved', '/get-involved'],
+            ['About', '/about'],
           ].map(([label, href]) => (
             <Link
               key={href}

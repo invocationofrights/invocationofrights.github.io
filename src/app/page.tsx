@@ -1,20 +1,27 @@
 // src/app/page.tsx
+import Link from 'next/link';
+
 export default function HomePage() {
   return (
-    <section className="prose dark:prose-invert">
-      <h1>The Invocation of Rights</h1>
-      <h2>Four simple lines to protect yourself—anytime, anywhere.</h2>
+    <section className="max-w-3xl mx-auto px-4 py-20 prose dark:prose-invert prose-headings:font-semibold prose-p:leading-relaxed">
+      <h1 className="text-4xl sm:text-5xl font-bold text-center mb-4">The Invocation of Rights</h1>
+      <h2 className="text-xl sm:text-2xl font-medium text-center text-gray-500 dark:text-gray-400 mb-10">
+        Four simple lines to protect yourself—<em>anytime, anywhere.</em>
+      </h2>
 
-      <div style={{marginTop: '2rem', lineHeight: '1.8'}}>
-        <p>🤐 I invoke my right to remain silent.</p>
-        <p>⚖️ I invoke my right to a lawyer.</p>
-        <p>🔍 I don’t consent to any searches.</p>
-        <p>🚪 I want to leave. Am I free to go?</p>
+      <div className="space-y-4 text-lg sm:text-xl">
+        <p>🤐 <span className="font-medium">I invoke my right to remain silent.</span></p>
+        <p>⚖️ <span className="font-medium">I invoke my right to a lawyer.</span></p>
+        <p>🔍 <span className="font-medium">I don’t consent to any searches.</span></p>
+        <p>🚪 <span className="font-medium">I want to leave. Am I free to go?</span></p>
       </div>
 
-      <p style={{marginTop: '2rem', fontStyle: 'italic'}}>
+      <p className="mt-10 italic text-center text-sm sm:text-base text-gray-600 dark:text-gray-400">
         Memorize it. Share it. Make it a norm—like “stop, drop, and roll.”
       </p>
+      <Link href="/docs/invocation_whitepaper.pdf" target="_blank" rel="noopener">
+        Download the white‑paper (PDF)
+      </Link>
     </section>
   );
 }
