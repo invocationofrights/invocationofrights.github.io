@@ -1,0 +1,16 @@
+References
+Ajzen, I. (1991). The theory of planned behavior. Organizational Behavior and Human Decision Processes, 50(2), 179–211. https://doi.org/10.1016/0749-5978(91)90020-T
+Arnsten, A. F. T. (2009). Stress signalling pathways that impair prefrontal cortex structure and function. Nature Reviews Neuroscience, 10(6), 410–422. https://doi.org/10.1038/nrn2648
+Bandura, A. (1977). Self-efficacy: Toward a unifying theory of behavioral change. Psychological Review, 84(2), 191–215. https://doi.org/10.1037/0033-295X.84.2.191
+Bargh, J. A., & Chartrand, T. L. (1999). The unbearable automaticity of being. American Psychologist, 54(7), 462–479. https://doi.org/10.1037/0003-066X.54.7.462
+Driskell, J. E., & Johnston, J. H. (1998). Stress exposure training. In J. A. Cannon-Bowers & E. Salas (Eds.), Making decisions under stress (pp. 191–217). American Psychological Association. https://doi.org/10.1037/10278-007
+Ericsson, K. A. (2008). Deliberate practice and acquisition of expert performance: A general overview. Academic Emergency Medicine, 15(11), 988–994. https://doi.org/10.1111/j.1553-2712.2008.00227.x
+Ewick, P., & Silbey, S. S. (1998). The common place of law: Stories from everyday life. University of Chicago Press. http://doi.org/10.2307/2655592
+Eysenck, M. W., Derakshan, N., Santos, R., & Calvo, M. G. (2007). Anxiety and cognitive performance: Attentional control theory. Emotion, 7(2), 336–353. https://doi.org/10.1037/1528-3542.7.2.336
+Kahneman, D. (2011). Thinking, fast and slow. Farrar, Straus and Giroux. http://doi.org/10.1007/s00362-013-0533-y
+LeDoux, J. E. (1996). The emotional brain: The mysterious underpinnings of emotional life. Simon & Schuster.
+Rogers, E. M. (2003). Diffusion of innovations (5th ed.). Free Press. http://doi.org/10.1016/j.jmig.2007.07.001
+Schwabe, L., & Wolf, O. T. (2013). Stress modulates the engagement of multiple memory systems in classification learning. Journal of Neuroscience, 33(26), 11042–11049. http://doi.org/10.1523/JNEUROSCI.1484-12.2012
+Sweller, J. (1988). Cognitive load during problem solving: Effects on learning. Cognitive Science, 12(2), 257–285. http://doi.org/10.1207/s15516709cog1202_4
+Tyler, T. R. (2006). Why people obey the law. Princeton University Press. http://doi.org/10.2307/j.ctv1j66769
+Note: These sources represent the foundation for behavioral and social design claims in Sections 5 and 6. Additional sources are available in the full research bibliography upon request.

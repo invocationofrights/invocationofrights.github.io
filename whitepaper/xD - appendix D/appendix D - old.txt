@@ -1,0 +1,78 @@
+Appendix D: Scenario Analyses and Stakeholder Impact
+This appendix offers a concise, evidence‑oriented glimpse at how the Invocation of Rights operates in practice. A single flagship scenario illustrates advantages and failure modes; a matrix summarizes impacts across institutions; sidebars note statutory compatibility, transition costs, and research needs. Empirical testing is forthcoming, so the analysis is deliberately compact.
+
+Flagship Scenario (Terry Stop)
+Context. Evening patrol on a commercial strip. Officer pulls over a driver for a broken taillight, requests conversation beside the vehicle, and begins casual questioning.
+Micro‑transcript.
+Civilian: “I invoke my right to remain silent. I invoke my right to a lawyer. I don’t consent to any searches. I want to leave. Am I free to go?”
+ Officer: “Understood. Please wait here while I verify your license and registration.”
+ (License check clears; officer issues fix‑it ticket and releases driver.)
+
+Outcomes.
+
+Actor Immediate Effect Down‑stream Benefit
+Officer
+Maintains procedural clarity; avoids unrecorded questioning.
+Lower liability exposure; no suppression risk if citation contested.
+Civilian
+Rights asserted without escalation.
+Clear evidence trail if dispute arises.
+Supervisor
+Body‑cam shows textbook compliance.
+Easier performance review; supports training benchmarks.
+Prosecutor (If case later filed) Invocation time‑stamp defines questioning window. Reduced suppression‑motion workload.
+Failure‑mode variant. Officer ignores Invocation and continues questioning. Court later suppresses statements; Internal Affairs opens review for policy breach. Administrative cost = new training session + IA hours; suppression cost = dismissed charge.
+
+Stakeholder Impact Matrix
+Stakeholder Primary Benefit Trade‑off / Cost Training or Resource Need
+Civilians
+Clarity of rights; reduced stress during stops.
+None if trained; confusion if untrained.
+Community outreach; pocket cards.
+Front‑line Officers
+Shield from perjury claims; clear stop boundaries.
+Less reliance on spontaneous admissions.
+Roll‑call briefing; updated policy memo.
+Supervisors
+Objective body‑cam benchmark for compliance.
+Must track Invocation adherence metrics.
+Audit template updates.
+Prosecutors
+Cleaner evidentiary record; fewer suppression fights.
+Some cases require additional corroboration.
+Charging‑decision checklist tweak.
+Judges
+Narrower procedural disputes; faster hearings.
+Potential docket shift (fewer plea bargains).
+None.
+Elected Officials
+Greater institutional legitimacy; reduced settlement payouts.
+Short‑term dip in conviction volume statistics.
+Public‑messaging toolkit.
+
+====
+
+Compatibility Sidebar – Stop‑and‑Identify Laws
+ Line 4 (“I want to leave. Am I free to go?”) addresses detention status; it does not relieve statutory duties to provide identification where required. Courts have treated ID requirements as distinct from speech‑based invocation (see Hiibel v. Sixth Judicial District Court, 2004).
+
+Transition‑Cost Box Items to budget once pilots begin
+officer in‑service module (≈ 30 min)
+wallet‑card printing / digital download host
+policy‑memo revision & distribution
+body‑cam audit rubric adjustment
+
+
+Dollar values will depend on jurisdictional scales and remain to be estimated after pilot design.
+
+Evidence Gap & Research Agenda
+What proportion of body‑cam footage already contains partial or failed invocations?
+Does standardized invocation reduce the average number of suppression‑motion hearings per 1000 arrests?
+
+
+What is the cost‑to‑savings ratio of officer training versus civil‑liability payouts over a three‑year horizon?
+
+
+Researchers, agencies, or unions interested in collaborating on pilot studies are invited to make contact: info@invocationofrights.org
+
+
+Appendix D reflects preliminary analysis; quantitative validation will follow field trials.
