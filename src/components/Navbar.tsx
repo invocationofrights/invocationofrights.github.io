@@ -6,6 +6,7 @@ const links = [
   ['Why', '/why'],
   ['Legal', '/legal'],
   ['How-to', '/how-to'],
+  ['Whitepaper', '/whitepaper'],
   ['For Officers', '/for-officers'],
   ['Resources', '/resources'],
   ['Get Involved', '/get-involved'],
