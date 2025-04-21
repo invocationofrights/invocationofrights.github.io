@@ -1,3 +1,5 @@
+/* src/app/globals.css */
+
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
@@ -22,3 +24,13 @@ html {
   scroll-behavior: smooth;
   transition: background-color 0.3s, color 0.3s;
 }
+
+@theme {
+  --color-success              : #22c55e;
+  --color-success-bg           : #dcfce7;
+  --color-success-fg           : #166534;
+  --color-success-dark-bg      : #052e16;
+  --color-success-dark-fg      : #bbf7d0;
+}
+
+/*--color-success-dark-bg      : #05112e;*/

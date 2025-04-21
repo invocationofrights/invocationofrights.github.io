@@ -1,5 +1,6 @@
 // src/app/page.tsx
 
+import '@/styles/utilities.css';
 import Link from 'next/link';
 
 export default function HomePage() {

@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .alert-success {
+        @apply border border-success text-success-fg bg-success-bg dark:bg-success-dark-bg dark:text-success-dark-fg px-4 py-3 rounded-md;
+    }
+
+    /* Optional future styles */
+    .alert-error {
+        @apply border border-red-500 text-red-800 bg-red-100 dark:bg-red-900/20 dark:text-red-100;
+    }
+}
