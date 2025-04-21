@@ -17,6 +17,11 @@ export default function NewsletterForm() {
     const url = SITE.EMAIL_COLLECTION;
     const query = new URLSearchParams([...formData.entries()] as [string, string][]).toString();
 
+    window.dataLayer?.push({
+      event: 'newsletter_signup',
+      signup_method: 'footer_form', // or 'hero_form', etc.
+    });
+
     try {
       await fetch(`${url}?${query}`, {
         method: 'GET',
