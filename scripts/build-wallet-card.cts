@@ -1,73 +1,140 @@
-/* ------------------------------------------------------------
-   build-wallet-card.cts  (run via ts-node/register)
-   Converts front/back SVG into duplex 10‑up PDF for home print.
-------------------------------------------------------------- */
-import {PDFDocument, PDFImage} from 'pdf-lib';
-import sharp from 'sharp';
-import { writeFileSync, readFileSync } from 'fs';
-import { join, relative } from 'path';
-import { BUILD } from '../src/config/build';
+/* -----------------------------------------------------------------
+   scripts/build-wallet-card.cts
+   Wallet‑card generator
+   • SVG front / back  →  PostCSS (resolve CSS vars) →  SVGO inline
+   • Resvg → 600 dpi PNG  →  pdf‑lib 8‑up PDF with dashed cut‑guides
+------------------------------------------------------------------ */
 
-/* ---- resolve full SVG paths from config ------------------- */
-const FRONT_SVG = join(process.cwd(), BUILD.WALLET_SVG_DIR, BUILD.WALLET_FRONT);
-const BACK_SVG  = join(process.cwd(), BUILD.WALLET_SVG_DIR, BUILD.WALLET_BACK);
-const OUT_PDF   = join(process.cwd(), BUILD.DOWNLOADS_DIR, BUILD.WALLET_PDF_OUT);
+import { readFileSync, writeFileSync } from 'fs';
+import { join, relative }             from 'path';
+import {PDFDocument, rgb, PDFPage, PDFImage} from 'pdf-lib';
+import { Resvg }                      from '@resvg/resvg-js';
+import { initWasm }                   from '@resvg/resvg-wasm';
+import { optimize }                   from 'svgo';
+import postcss                        from 'postcss';
+import customProps                    from 'postcss-custom-properties';
+import logger                         from '../src/lib/logger';
+import { BUILD }                      from '../src/config/build';
 
-/* ---- card + sheet geometry -------------------------------- */
-const CARD_W_IN = 3.37;
-const CARD_H_IN = 2.125;
-const GUTTER_IN = 0.25;
-const COLS = 2, ROWS = 5;
-const PT = 72;
-const CARD_W = CARD_W_IN * PT;
-const CARD_H = CARD_H_IN * PT;
-const GUTTER  = GUTTER_IN * PT;
-const SHEET_W = 8.5 * PT;
-const SHEET_H = 11  * PT;
+/* ---------- geometry (points) ---------------------------------- */
+const IN      = 72;            // 1 inch = 72 pt
+const CARD_W  = 3.37  * IN;    // CR‑80 width
+const CARD_H  = 2.125 * IN;    // CR‑80 height
+const GUT     = 0.25  * IN;    // gap between cards
+const COLS    = 2;
+const ROWS    = 4;             // 8 cards / sheet
+const SHEET_W = 8.5  * IN;     // US‑Letter
+const SHEET_H = 11    * IN;
 
-/* grid positions */
-function* positions() {
-  const totalW = COLS * CARD_W + (COLS - 1) * GUTTER;
-  const totalH = ROWS * CARD_H + (ROWS - 1) * GUTTER;
-  const x0 = (SHEET_W - totalW) / 2;
-  const y0 = (SHEET_H - totalH) / 2;
-  for (let r = 0; r < ROWS; r++)
-    for (let c = 0; c < COLS; c++)
-      yield { x: x0 + c * (CARD_W + GUTTER),
-        y: y0 + r * (CARD_H + GUTTER) };
+/* ---------- iterator over card slots --------------------------- */
+function* slots() {
+  const gridW = COLS * CARD_W + (COLS - 1) * GUT;
+  const gridH = ROWS * CARD_H + (ROWS - 1) * GUT;
+  const x0 = (SHEET_W - gridW) / 2;
+  const yTop = (SHEET_H + gridH) / 2 - CARD_H;
+
+  for (let r = 0; r < ROWS; r++) {
+    const y = yTop - r * (CARD_H + GUT);
+    for (let c = 0; c < COLS; c++) {
+      const x = x0 + c * (CARD_W + GUT);
+      yield { x, y };
+    }
+  }
 }
 
-/* ---- main ------------------------------------------------- */
+/* ---------- dashed cut‑guides helper --------------------------- */
+const GUIDE_STYLE = {
+  color: rgb(0, 0, 0),
+  opacity: 0.4,
+  thickness: 0.6,
+  dashArray: [3, 3] as number[],   // mutable for pdf‑lib typing
+};
+
+function drawCutGuides(page: PDFPage) {
+  // vertical centre line
+  const v = SHEET_W / 2;
+  page.drawLine({
+    start: { x: v, y: 36 },
+    end:   { x: v, y: SHEET_H - 36 },
+    ...GUIDE_STYLE,
+  });
+
+  // three horizontals between 4 rows
+  for (let r = 1; r < ROWS; r++) {
+    const y = SHEET_H / 2 + (ROWS / 2 - r) * (CARD_H + GUT);
+    page.drawLine({
+      start: { x: 36, y },
+      end:   { x: SHEET_W - 36, y },
+      ...GUIDE_STYLE,
+    });
+  }
+}
+
+/* ---------- SVG → PNG buffer (resolves CSS vars) --------------- */
+async function raster(svgPath: string, dpi = 600) {
+  let svg = readFileSync(svgPath, 'utf8');
+
+  // resolve CSS custom properties inside <style>
+  const styleRE = /<style[^>]*>([\s\S]*?)<\/style>/;
+  const m = svg.match(styleRE);
+  if (m) {
+    const { css } = await postcss([customProps({ preserve: false })])
+      .process(m[1], { from: undefined });
+    svg = svg.replace(styleRE, `<style>${css}</style>`);
+  }
+
+  // inline styles with SVGO
+  const { data: inlined } = optimize(svg, {
+    plugins: [
+      { name: 'preset-default', params: { overrides: { removeViewBox: false } } },
+      'inlineStyles',
+    ],
+  });
+
+  // rasterise via Resvg
+  const resvg = new Resvg(inlined, {
+    dpi,
+    fitTo: { mode: 'width', value: (CARD_W / IN) * dpi },
+  });
+  return resvg.render().asPng();   // Uint8Array buffer
+}
+
+/* ---------- main ------------------------------------------------ */
 (async () => {
-  /* 1. read SVGs and rasterise at 600 dpi */
-  const DPI = 600;
-  const PX_W = Math.round(CARD_W_IN * DPI);
-  const PX_H = Math.round(CARD_H_IN * DPI);
+  /* init Resvg WASM */
+  const wasmPath = require.resolve('@resvg/resvg-wasm/index_bg.wasm');
+  await initWasm(readFileSync(wasmPath));
 
-  const frontPNG = await sharp(readFileSync(FRONT_SVG))
-    .resize(PX_W, PX_H)
-    .png()
-    .toBuffer();
+  /* paths */
+  const frontSVG = join(process.cwd(), BUILD.WALLET_SVG_DIR, BUILD.WALLET_FRONT);
+  const backSVG  = join(process.cwd(), BUILD.WALLET_SVG_DIR, BUILD.WALLET_BACK);
+  const outPDF   = join(process.cwd(), BUILD.DOWNLOADS_DIR, BUILD.WALLET_PDF_OUT);
 
-  const backPNG = await sharp(readFileSync(BACK_SVG))
-    .resize(PX_W, PX_H)
-    .png()
-    .toBuffer();
+  /* rasterise */
+  const [frontBuf, backBuf] = await Promise.all([
+    raster(frontSVG),
+    raster(backSVG),
+  ]);
 
-  /* 2. create PDF */
-  const pdf = await PDFDocument.create();
-  const frontImg = await pdf.embedPng(frontPNG);
-  const backImg  = await pdf.embedPng(backPNG);
+  /* assemble PDF */
+  const pdf       = await PDFDocument.create();
+  const frontImg  = await pdf.embedPng(frontBuf);
+  const backImg   = await pdf.embedPng(backBuf);
 
-  const addSide = (img: PDFImage) => {
+  const place = (img: PDFImage) => {
     const page = pdf.addPage([SHEET_W, SHEET_H]);
-    for (const pos of positions())
-      page.drawImage(img, { x: pos.x, y: pos.y, width: CARD_W, height: CARD_H });
+    drawCutGuides(page);
+    for (const pos of slots()) {
+      page.drawImage(img, { ...pos, width: CARD_W, height: CARD_H });
+    }
   };
 
-  addSide(frontImg);   // page 1
-  addSide(backImg);    // page 2
+  place(frontImg);   // page 1
+  place(backImg);    // page 2
 
-  writeFileSync(OUT_PDF, await pdf.save());
-  console.log('✓', relative(process.cwd(), OUT_PDF), 'generated');
-})();
+  writeFileSync(outPDF, await pdf.save());
+  logger.info(`✓ ${relative(process.cwd(), outPDF)} generated`);
+})().catch((err) => {
+  logger.error('wallet‑card build failed', err);
+  process.exit(1);
+});
