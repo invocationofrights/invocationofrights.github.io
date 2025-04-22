@@ -7,8 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "gen-redirects": "node -r ts-node/register scripts/generate-redirects.cts",
     "deploy": "echo invocationofrights.org > out/CNAME && echo true > out/.nojekyll && gh-pages -d out -f -t",
-    "build-deploy": "npm run build && npm run deploy"
+    "build-deploy": "npm run gen-redirects && npm run build && npm run deploy"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
@@ -29,6 +30,7 @@
     "eslint-config-next": "15.3.0",
     "gh-pages": "^6.3.0",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
