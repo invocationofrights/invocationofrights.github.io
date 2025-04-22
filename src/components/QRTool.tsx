@@ -5,114 +5,141 @@ import { useState, useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import { getQrSvg } from '@/lib/getQrSvg';
 
-// Lazy load the SVG renderer so the extra deps stay in /qr chunk
 const QrSvg = dynamic(() => import('./QrSvg'), { ssr: false });
 
 export default function QRTool() {
-  /* ────────────────────────── state ────────────────────────── */
-  const [url, setUrl]           = useState('bit.ly/42o5BXl');
-  const [size, setSize]         = useState(300);       // scaling input
-  const [standalone, setStandalone] = useState(true);  // <svg> vs <g>
-  const [svgRaw, setSvgRaw]     = useState<string | null>(null);
+  /* ─── state ───────────────────────────────────── */
+  const [url, setUrl]       = useState('bit.ly/42o5BXl');
+  const [size, setSize]     = useState(300);
+  const [standalone, setStandalone] = useState(false);   // ⬅ default = embedded
+  const [tx, setTx]         = useState(0);
+  const [ty, setTy]         = useState(0);
+  const [svgRaw, setSvgRaw] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
-  /* ───────── regenerate SVG whenever url / size changes ────── */
+  /* ─── regenerate SVG on change ─────────────────── */
   useMemo(() => {
     getQrSvg(url, { size }).then(setSvgRaw);
   }, [url, size]);
 
-  /* ───────── helper: strip wrapper for embed mode ──────────── */
-  const embedMarkup = svgRaw
+  /* ─── build code output (no blank lines) ───────── */
+  const innerSvg = svgRaw
     ? svgRaw
-      .replace(/<\?xml.*?\?>/, '')        // drop XML prolog
-      .replace(/<svg[^>]*>/, '')          // drop opening tag
-      .replace(/<\/svg>\s*$/, '')         // drop closing tag
+      .replace(/<\?xml.*?\?>/, '')
+      .replace(/<svg[^>]*>/, '')
+      .replace(/<\/svg>\s*$/, '')
     : '';
 
-  const codeToShow = standalone ? svgRaw : embedMarkup;
+  const embedMarkup = `<g transform="translate(${tx} ${ty})">${innerSvg}</g>`;
+  const codeToShow  = standalone ? svgRaw : embedMarkup;
 
-  /* ───────── download & clipboard helpers ──────────────────── */
+  /* ─── helpers ──────────────────────────────────── */
+  const copyToClipboard = async () => {
+    if (!codeToShow) return;
+    await navigator.clipboard.writeText(codeToShow);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1200);
+  };
+
   const downloadSvg = () => {
     if (!svgRaw) return;
     const blob = new Blob([svgRaw], { type: 'image/svg+xml' });
-    const urlObj = URL.createObjectURL(blob);
-    const a = Object.assign(document.createElement('a'), {
-      href: urlObj,
-      download: 'qr-code.svg',
-    });
-    a.click();
-    URL.revokeObjectURL(urlObj);
+    const href = URL.createObjectURL(blob);
+    Object.assign(document.createElement('a'), { href, download: 'qr-code.svg' }).click();
+    URL.revokeObjectURL(href);
   };
 
-  const copyToClipboard = async () => {
-    if (codeToShow) await navigator.clipboard.writeText(codeToShow);
-  };
-
-  /* ────────────────────────── render ───────────────────────── */
+  /* ─── render ───────────────────────────────────── */
   return (
-    <section className="w-full max-w-lg space-y-6 text-gray-900 dark:text-gray-100">
-      {/* URL input */}
+    <section className="w-full max-w-4xl mx-auto space-y-8 text-gray-900 dark:text-gray-100">
+      {/* URL */}
       <div>
-        <label htmlFor="qr-input" className="block mb-1 font-medium">
-          URL to encode
-        </label>
+        <label className="block mb-1 font-medium" htmlFor="qr-url">URL to encode</label>
         <input
-          id="qr-input"
+          id="qr-url"
           type="url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="https://example.com"
           className="w-full border rounded px-3 py-2 bg-white dark:bg-gray-900"
         />
       </div>
 
-      {/* Size / scaling input */}
+      {/* size */}
       <div className="flex items-center gap-3">
-        <label htmlFor="qr-size" className="font-medium">
-          Size (px)
-        </label>
+        <label htmlFor="qr-size" className="font-medium">Size (px)</label>
         <input
           id="qr-size"
-          type="number"
-          min={64}
-          max={1024}
-          step={16}
+          type="number" min={64} max={1024} step={16}
           value={size}
           onChange={(e) => setSize(Number(e.target.value) || 0)}
-          className="w-24 border rounded px-2 py-1 bg-white dark:bg-gray-900"
+          className="w-28 border rounded px-2 py-1 bg-white dark:bg-gray-900"
         />
       </div>
 
-      {/* Live preview (transparent background) */}
-      <QrSvg value={url} size={size} className="mx-auto" />
+      {/* preview with thin border */}
+      <div className="inline-block p-1 border rounded">
+        <QrSvg value={url} size={size} />
+      </div>
 
-      {/* Action buttons */}
+      {/* buttons */}
       <div className="flex gap-4 justify-center">
         <button
           onClick={downloadSvg}
-          className="px-4 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white"
+          disabled={!standalone}                        /* only relevant when file exists */
+          className={`px-4 py-2 rounded text-white ${
+            standalone
+              ? 'bg-blue-600 hover:bg-blue-700'
+              : 'bg-blue-400 cursor-not-allowed'
+          }`}
         >
           Download SVG
         </button>
+
         <button
           onClick={copyToClipboard}
-          className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+          className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 flex items-center gap-2"
         >
-          Copy {standalone ? 'SVG' : '<g>'} Markup
+          {copied ? 'Copied!' : 'Copy Markup'}
+          {copied && (
+            <span className="animate-ping inline-block w-2 h-2 rounded-full bg-green-400" />
+          )}
         </button>
       </div>
 
-      {/* Toggle + code viewer */}
-      <div className="space-y-2">
+      {/* embed / standalone toggle */}
+      <div className="space-y-4">
+        {!standalone && (
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="font-medium">Embedded location</span>
+            <div className="flex items-center gap-2">
+              <span>tx:</span>
+              <input
+                type="number" value={tx}
+                onChange={(e) => setTx(Number(e.target.value) || 0)}
+                className="w-20 border rounded px-2 py-1 bg-white dark:bg-gray-900"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <span>ty:</span>
+              <input
+                type="number" value={ty}
+                onChange={(e) => setTy(Number(e.target.value) || 0)}
+                className="w-20 border rounded px-2 py-1 bg-white dark:bg-gray-900"
+              />
+            </div>
+          </div>
+        )}
+
         <label className="inline-flex items-center gap-2">
           <input
             type="checkbox"
             checked={standalone}
             onChange={(e) => setStandalone(e.target.checked)}
           />
-          Stand‑alone <code>&lt;svg&gt;</code> (uncheck for embed)
+          Stand‑alone <code>&lt;svg&gt;</code>
         </label>
 
-        <pre className="border rounded bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-3 h-56 overflow-auto text-xs whitespace-pre-wrap">
+        <pre className="border rounded bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-4 h-64 overflow-auto text-xs whitespace-pre-wrap">
 {codeToShow || 'Generating SVG…'}
         </pre>
       </div>
