@@ -2,48 +2,94 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      width="1050" height="600" viewBox="0 0 1050 600">
 
-    <!-- Background -->
+    <!-- =======  CENTRAL STYLE DEFINITIONS  ======= -->
+    <style>
+        /* Global variables */
+        :root {
+        --color-text: #000000;
+        --color-hrule: #999999;
+        --color-footer: #444444;
+        --hrule-width: 1.5;
+
+        --font: "Inter", sans-serif;
+        --header-size: 54px;
+        --header-weight: 500;
+        --header-spacing: 4px;
+
+        --subheader-size: 36px;
+        --subheader-weight: 100;
+        --subheader-spacing: 1.5px;
+
+        --script-size: 40px;
+        --script-weight: 100;
+        --script-spacing: 0.2px;
+
+        --footer-size: 26px;
+        --footer-weight: 100;
+        --footer-spacing: 0.25px;
+        }
+
+        /* Structural classes */
+        .heading { text-anchor: middle;
+        font-family: var(--font);
+        font-size: var(--header-size);
+        font-weight: var(--header-weight);
+        font-variant: small-caps;
+        letter-spacing: var(--header-spacing);
+        fill: var(--color-text); }
+
+        .subheader { text-anchor: middle;
+        font-family: var(--font);
+        font-size: var(--subheader-size);
+        font-weight: var(--subheader-weight);
+        font-variant: small-caps;
+        letter-spacing: var(--subheader-spacing);
+        fill: var(--color-text); }
+
+        .script { text-anchor: middle;
+        font-family: var(--font);
+        font-size: var(--script-size);
+        letter-spacing: var(--script-spacing);
+        font-weight: var(--script-weight);
+        text-rendering: optimizeLegibility;
+        fill: var(--color-text); }
+
+        .hrule { stroke: var(--color-hrule); stroke-width: var(--hrule-width); }
+
+        .footer { text-anchor: middle;
+        font-family: var(--font);
+        font-size: var(--footer-size);
+        letter-spacing: var(--footer-spacing);
+        font-weight: var(--footer-weight);
+        fill: var(--color-footer); }
+    </style>
+
+    <!-- =======  ARTWORK  ======= -->
     <rect width="1050" height="600" fill="#FFFFFF"/>
 
-
-    <!-- Heading -->
-    <text x="525" y="90" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="54"
-          font-weight="500" font-variant="small-caps"
-          letter-spacing="3.0px" fill="#000000">
+    <!-- Heading & instruction -->
+    <text class="heading" x="525" y="90">
         The Invocation of Rights
     </text>
 
-    <!-- Instruction in true small‑caps -->
-    <text x="525" y="140" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="36"
-          font-weight="500" font-variant="small-caps"
-          letter-spacing="1.5px" fill="#000000">
+    <text class="subheader" x="525" y="140">
         say all four lines together
     </text>
 
-    <!-- Hairline rule -->
-    <line x1="75" y1="180" x2="975" y2="180"
-          stroke="#999999" stroke-width="1.5"/>
+    <!-- hrule rules -->
+    <line class="hrule" x1="75" y1="180" x2="975" y2="180"/>
+    <line class="hrule" x1="75" y1="505" x2="975" y2="505"/>
 
-    <!-- Script lines -->
-    <g font-family="Inter, sans-serif" font-size="48"
-       letter-spacing="0.2px" text-rendering="optimizeLegibility"
-       text-anchor="middle" fill="#000000">
+    <!-- Script block -->
+    <g class="script">
         <text x="525" y="265">I invoke my right to remain silent.</text>
         <text x="525" y="327">I invoke my right to a lawyer.</text>
         <text x="525" y="389">I don’t consent to any searches.</text>
         <text x="525" y="451">I want to leave. Am I free to go?</text>
     </g>
 
-    <!-- Hairline rule -->
-    <line x1="75" y1="505" x2="975" y2="505"
-          stroke="#999999" stroke-width="1.5"/>
-
     <!-- Footer -->
-    <text x="525" y="565" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="32"
-          fill="#555555" letter-spacing="0.25px">
+    <text class="footer" x="525" y="565">
         invoc8.org/rights
     </text>
 </svg>

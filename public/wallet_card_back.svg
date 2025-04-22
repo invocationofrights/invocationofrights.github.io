@@ -2,61 +2,76 @@
 <svg xmlns="http://www.w3.org/2000/svg"
      width="1050" height="600" viewBox="0 0 1050 600">
 
-    <!-- Background -->
+    <style>
+        /* Inherit front‑side variables */
+        :root {
+        --color-text: #000000;
+        --color-hrule: #999999;
+        --color-footer: #444444;
+        --hrule-width: 1.5;
+
+        --font: "Inter", sans-serif;
+
+        --header-size: 36px;
+        --header-weight: 100;
+        --header-spacing: 1.5px;
+
+        --body-size: 40px;
+        --body-weight: 100;
+        --body-spacing: 0.2px;
+
+<!--        &#45;&#45;tip-size: 28px;-->
+
+        --footer-size: 26px;
+        }
+
+        .heading { text-anchor: middle;
+        font-family: var(--font);
+        font-size: var(--header-size);
+        font-weight: var(--header-weight);
+        font-variant: small-caps;
+        letter-spacing: var(--header-spacing);
+        fill: var(--color-text); }
+
+        .step { font-family: var(--font);
+        font-size: var(--body-size);
+        font-weight: var(--body-weight);
+        letter-spacing: var(--body-spacing);
+        fill: var(--color-text); }
+
+<!--        .tip { font-family: var(&#45;&#45;font);-->
+<!--        font-size: var(&#45;&#45;tip-size);-->
+<!--        font-style: italic;-->
+<!--        fill: var(&#45;&#45;color-text); }-->
+
+        .hrule { stroke: var(--color-hrule); stroke-width: var(--hrule-width); }
+
+        .footer { font-family: var(--font);
+        font-size: var(--footer-size);
+        fill: var(--color-footer); }
+    </style>
+
+    <!-- =======  Background  ======= -->
     <rect width="1050" height="600" fill="#FFFFFF"/>
 
-    <!-- Top accent bar (≈3 mm) -->
-    <rect width="1050" height="35" fill="#303030"/>
-
-    <!-- Heading in Archivo Black -->
-    <text x="525" y="135" text-anchor="middle"
-          font-family="Archivo Black, sans-serif" font-size="64"
-          letter-spacing="0.5px" fill="#000000">
-        THE INVOCATION OF RIGHTS
-    </text>
-
-    <!-- Instruction line in Inter -->
-    <text x="525" y="190" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="36"
-          font-weight="500" letter-spacing="0.25px"
-          fill="#000000">
-        SAY ALL FOUR LINES TOGETHER
-    </text>
+    <!-- Heading -->
+    <text class="heading" x="525" y="90">Use It Correctly</text>
 
     <!-- Hairline rule -->
-    <line x1="75" y1="210" x2="975" y2="210"
-          stroke="#CCCCCC" stroke-width="0.7"/>
+    <line class="hrule" x1="75" y1="125" x2="975" y2="125"/>
+    <line class="hrule" x1="75" y1="505" x2="975" y2="505"/>
 
-    <!-- Script lines in Inter -->
-    <text x="525" y="275" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="48"
-          fill="#000000">
-        I invoke my right to remain silent.
-    </text>
-    <text x="525" y="339" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="48"
-          fill="#000000">
-        I invoke my right to a lawyer.
-    </text>
-    <text x="525" y="403" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="48"
-          fill="#000000">
-        I don’t consent to any searches.
-    </text>
-    <text x="525" y="467" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="48"
-          fill="#000000">
-        I want to leave. Am I free to go?
-    </text>
+    <!-- Steps block -->
+    <g class="step" text-anchor="start">
+        <text x="130" y="185">1. Speak calmly and clearly.</text>
+        <text x="130" y="255">2. Say all four lines exactly.</text>
+        <text x="130" y="325">3. Repeat if cuffed, moved, or arrested.</text>
+        <text x="130" y="395">4. Stay silent afterward.</text>
+        <text x="130" y="465">5. Follow legal orders such as identifying yourself.</text>
+    </g>
 
-    <!-- Hairline rule above footer -->
-    <line x1="75" y1="515" x2="975" y2="515"
-          stroke="#CCCCCC" stroke-width="0.7"/>
-
-    <!-- Footer URL in Inter -->
-    <text x="525" y="575" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="32"
-          fill="#555555">
-        invoc8.org/rights
-    </text>
+    <!-- QR + URL block -->
+    <!-- Placeholder QR rectangle (replace with real <image> href later) -->
+    <rect x="815" y="480" width="100" height="100" fill="#CCCCCC"/>
+    <text class="footer" x="180" y="560">©2025 Invocation of Rights – Rev A 04/25</text>
 </svg>
