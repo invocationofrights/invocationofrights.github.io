@@ -12,12 +12,12 @@
 
         --font: "Inter", sans-serif;
 
-        --header-size: 36px;
-        --header-weight: 100;
+        --header-size: 54px;
+        --header-weight: 500;
         --header-spacing: 1.5px;
 
         --body-size: 40px;
-        --body-weight: 100;
+        --body-weight: 300;
         --body-spacing: 0.2px;
 
 <!--        &#45;&#45;tip-size: 28px;-->

@@ -21,7 +21,7 @@
         --subheader-spacing: 1.5px;
 
         --script-size: 40px;
-        --script-weight: 100;
+        --script-weight: 300;
         --script-spacing: 0.2px;
 
         --footer-size: 26px;
