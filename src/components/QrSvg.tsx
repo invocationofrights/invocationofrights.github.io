@@ -2,39 +2,24 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getQrSvg } from '@/lib/getQrSvg';
+import { getQrSvg, QROpts } from '@/lib/getQrSvg';
 
-type Props = {
+interface Props extends QROpts {
   value: string;
-  size?: number;            // pixels (square)
   className?: string;
-};
+}
 
-export default function QrSvg({ value, size = 280, className }: Props) {
+export default function QrSvg({ value, size = 300, error, className }: Props) {
   const [svg, setSvg] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
+    getQrSvg(value, { size, error }).then((raw) => !cancelled && setSvg(raw));
+    return () => { cancelled = true; };
+  }, [value, size, error]);
 
-    getQrSvg(value, size).then((raw) => {
-      if (!cancelled) setSvg(raw);
-    });
+  if (!svg) return <p className="mt-6 text-center text-gray-600">Generating…</p>;
 
-    return () => {
-      cancelled = true;
-    };
-  }, [value, size]);
-
-  if (!svg) {
-    return <p className="mt-6 text-center text-gray-600">Generating…</p>;
-  }
-
-  return (
-    /* eslint-disable-next-line react/no-danger */
-    <div
-      className={className}
-      style={{ width: size, height: size }}
-      dangerouslySetInnerHTML={{ __html: svg }}
-    />
-  );
+  /* eslint-disable-next-line react/no-danger */
+  return <div className={className} dangerouslySetInnerHTML={{ __html: svg }} />;
 }

@@ -1,24 +1,22 @@
 // src/lib/getQrSvg.ts
-/**
- * Dynamically imports `qrcode-svg` and returns raw SVG markup.
- *
- * NOTE: keep this function *small* so the heavy library isn’t pulled
- * into any JS chunk unless it’s actually called.
- */
+export interface QROpts {
+  size?: number;          // final width/height in px
+  error?: 'L' | 'M' | 'Q' | 'H';
+}
+
 export async function getQrSvg(
   text: string,
-  size = 256,
-  padding = 4
+  { size = 256, error = 'M' }: QROpts = {}
 ): Promise<string> {
-  const { default: QRCode } = await import('qrcode-svg');   // on‑demand
-  const svg: string = new QRCode({
+  const { default: QRCode } = await import('qrcode-svg');
+
+  return new QRCode({
     content: text,
     width: size,
     height: size,
-    padding,                      // white border
+    padding: 0,          // ❶ no white border
     background: '#ffffff',
     color: '#000000',
-    ecl: 'M',                     // error‑correction level
+    ecl: error,
   }).svg();
-  return svg;
 }
