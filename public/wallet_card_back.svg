@@ -20,8 +20,6 @@
         --body-weight: 300;
         --body-spacing: 0.2px;
 
-<!--        &#45;&#45;tip-size: 28px;-->
-
         --footer-size: 26px;
         }
 
@@ -38,11 +36,6 @@
         font-weight: var(--body-weight);
         letter-spacing: var(--body-spacing);
         fill: var(--color-text); }
-
-<!--        .tip { font-family: var(&#45;&#45;font);-->
-<!--        font-size: var(&#45;&#45;tip-size);-->
-<!--        font-style: italic;-->
-<!--        fill: var(&#45;&#45;color-text); }-->
 
         .hrule { stroke: var(--color-hrule); stroke-width: var(--hrule-width); }
 
@@ -63,15 +56,16 @@
 
     <!-- Steps block -->
     <g class="step" text-anchor="start">
-        <text x="130" y="185">1. Speak calmly and clearly.</text>
-        <text x="130" y="255">2. Say all four lines exactly.</text>
-        <text x="130" y="325">3. Repeat if cuffed, moved, or arrested.</text>
-        <text x="130" y="395">4. Stay silent afterward.</text>
-        <text x="130" y="465">5. Follow legal orders such as identifying yourself.</text>
+        <text x="70" y="185"><tspan>1.</tspan><tspan dx="30">Speak calmly and clearly.</tspan></text>
+        <text x="70" y="255"><tspan>2.</tspan><tspan dx="30">Say all four lines exactly.</tspan></text>
+        <text x="70" y="325"><tspan>3.</tspan><tspan dx="30">Repeat if cuffed, moved, or arrested.</tspan></text>
+        <text x="70" y="395"><tspan>4.</tspan><tspan dx="30">Stay silent afterward.</tspan></text>
+        <text x="70" y="465"><tspan>5.</tspan><tspan dx="30">Follow legal orders such as identifying yourself.</tspan></text>
     </g>
 
-    <!-- QR + URL block -->
-    <!-- Placeholder QR rectangle (replace with real <image> href later) -->
+    <!-- QR code -->
     <rect x="815" y="480" width="100" height="100" fill="#CCCCCC"/>
+
+    <!-- Footer -->
     <text class="footer" x="180" y="560">©2025 Invocation of Rights – Rev A 04/25</text>
 </svg>

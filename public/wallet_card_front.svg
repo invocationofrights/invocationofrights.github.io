@@ -82,10 +82,10 @@
 
     <!-- Script block -->
     <g class="script">
-        <text x="525" y="265">I invoke my right to remain silent.</text>
-        <text x="525" y="327">I invoke my right to a lawyer.</text>
-        <text x="525" y="389">I don’t consent to any searches.</text>
-        <text x="525" y="451">I want to leave. Am I free to go?</text>
+        <text x="525" y="245">I invoke my right to remain silent.</text>
+        <text x="525" y="315">I invoke my right to a lawyer.</text>
+        <text x="525" y="385">I don’t consent to any searches.</text>
+        <text x="525" y="455">I want to leave. Am I free to go?</text>
     </g>
 
     <!-- Footer -->
