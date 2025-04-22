@@ -9,6 +9,17 @@ import logger from '@/lib/logger';
 const QrSvg = dynamic(() => import('./QrSvg'), { ssr: false });
 const LS_KEY = 'qr-tool-state';
 
+/* debounce hook */
+function useDebounced<T>(value: T, delay = 1000): T {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const id = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(id);
+  }, [value, delay]);
+  return debounced;
+}
+
+/* load saved settings */
 function readPersisted() {
   if (typeof window === 'undefined') return {};
   try {
@@ -23,6 +34,8 @@ function readPersisted() {
 export default function QRTool() {
   /* initial state (restored if available) */
   const persisted = readPersisted();
+
+  /* state */
   const [url, setUrl]         = useState(persisted.url        ?? 'bit.ly/42o5BXl');
   const [size, setSize]       = useState(persisted.size       ?? 300);
   const [standalone, setStandalone] = useState(persisted.standalone ?? false);
@@ -31,24 +44,28 @@ export default function QRTool() {
   const [copied, setCopied]   = useState(false);
   const [svgRaw, setSvgRaw]   = useState<string | null>(null);
 
-  /* save state whenever it changes */
+  /* persist on change */
   useEffect(() => {
     const state = { url, size, standalone, tx, ty };
     logger.debug('Persisting QR‑tool state', state);
     localStorage.setItem(LS_KEY, JSON.stringify(state));
   }, [url, size, standalone, tx, ty]);
 
-  /* regenerate SVG when URL or size change */
+  /* debounced size to limit re‑renders while typing */
+  const debouncedSize = useDebounced(size, 1000);
+
+  /* regenerate SVG */
   useMemo(() => {
-    getQrSvg(url, { size }).then(setSvgRaw);
-  }, [url, size]);
+    getQrSvg(url, { size: debouncedSize }).then(setSvgRaw);
+  }, [url, debouncedSize]);
 
   /* build markup */
-  const innerSvg    = svgRaw
+  const innerSvg = svgRaw
     ? svgRaw
       .replace(/<\?xml.*?\?>/, '')
       .replace(/<svg[^>]*>/, '')
       .replace(/<\/svg>\s*$/, '')
+      .trimStart()
     : '';
   const embedMarkup = `<g transform="translate(${tx} ${ty})">${innerSvg}</g>`;
   const codeToShow  = standalone ? svgRaw : embedMarkup;
@@ -72,7 +89,7 @@ export default function QRTool() {
   /* UI */
   return (
     <section className="w-full max-w-4xl mx-auto space-y-8 text-gray-900 dark:text-gray-100">
-      {/* URL input */}
+      {/* URL */}
       <div>
         <label htmlFor="qr-url" className="block mb-1 font-medium">URL to encode</label>
         <input
@@ -84,7 +101,7 @@ export default function QRTool() {
         />
       </div>
 
-      {/* Size input */}
+      {/* Size */}
       <div className="flex items-center gap-3">
         <label htmlFor="qr-size" className="font-medium">Size (px)</label>
         <input
@@ -99,12 +116,17 @@ export default function QRTool() {
         />
       </div>
 
-      {/* QR preview */}
-      <div className="inline-block p-1 border rounded">
-        <QrSvg value={url} size={size} />
+      {/* Preview area */}
+      <div
+        className="flex items-center justify-center"
+        style={{ minWidth: 100, minHeight: 100 }}     /* reserve space */
+      >
+        <div className="p-1 border rounded">
+          <QrSvg value={url} size={debouncedSize} />
+        </div>
       </div>
 
-      {/* Action buttons */}
+      {/* Actions */}
       <div className="flex gap-4 justify-center">
         <button
           onClick={downloadSvg}
