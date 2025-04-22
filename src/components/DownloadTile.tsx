@@ -19,25 +19,25 @@ export default function DownloadTile({
   return (
     <a
       href={href}
+      download
       data-resource-id={resourceId}
-      target="_blank"
       rel="noopener"
-      className="group block border rounded-lg overflow-hidden shadow-sm transition hover:shadow-md"
+      className="group flex flex-col border rounded-lg overflow-hidden shadow-sm transition hover:shadow-md"
     >
-      {/* thumb wrapper keeps ratio; inner Image uses object-contain */}
-      <div className="relative w-full aspect-[3/2] bg-neutral-100">
+      {/* preview wrapper: aspect‑ratio + centred content */}
+      <div className="relative w-full aspect-[3/2] bg-neutral-100 overflow-hidden flex items-center justify-center">
         <Image
           src={thumb}
           alt={title}
-          fill
-          sizes="(max-width: 640px) 50vw, 33vw"
-          className="object-contain"
+          width={600}        // any size; Next will down‑scale
+          height={400}
+          className="object-contain object-center w-full h-full"
         />
       </div>
 
-      <div className="p-3 text-sm font-medium group-hover:underline">
+      <figcaption className="p-3 text-sm font-medium group-hover:underline">
         {title}
-      </div>
+      </figcaption>
     </a>
   );
 }
