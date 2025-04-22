@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1050" height="600" viewBox="0 0 1050 600">
+
+    <!-- Background -->
+    <rect width="1050" height="600" fill="#FFFFFF"/>
+
+    <!-- Top accent bar (≈3 mm) -->
+    <rect width="1050" height="35" fill="#303030"/>
+
+    <!-- Heading in Archivo Black -->
+    <text x="525" y="135" text-anchor="middle"
+          font-family="Archivo Black, sans-serif" font-size="64"
+          letter-spacing="0.5px" fill="#000000">
+        THE INVOCATION OF RIGHTS
+    </text>
+
+    <!-- Instruction line in Inter -->
+    <text x="525" y="190" text-anchor="middle"
+          font-family="Inter, sans-serif" font-size="36"
+          font-weight="500" letter-spacing="0.25px"
+          fill="#000000">
+        SAY ALL FOUR LINES TOGETHER
+    </text>
+
+    <!-- Hairline rule -->
+    <line x1="75" y1="210" x2="975" y2="210"
+          stroke="#CCCCCC" stroke-width="0.7"/>
+
+    <!-- Script lines in Inter -->
+    <text x="525" y="275" text-anchor="middle"
+          font-family="Inter, sans-serif" font-size="48"
+          fill="#000000">
+        I invoke my right to remain silent.
+    </text>
+    <text x="525" y="339" text-anchor="middle"
+          font-family="Inter, sans-serif" font-size="48"
+          fill="#000000">
+        I invoke my right to a lawyer.
+    </text>
+    <text x="525" y="403" text-anchor="middle"
+          font-family="Inter, sans-serif" font-size="48"
+          fill="#000000">
+        I don’t consent to any searches.
+    </text>
+    <text x="525" y="467" text-anchor="middle"
+          font-family="Inter, sans-serif" font-size="48"
+          fill="#000000">
+        I want to leave. Am I free to go?
+    </text>
+
+    <!-- Hairline rule above footer -->
+    <line x1="75" y1="515" x2="975" y2="515"
+          stroke="#CCCCCC" stroke-width="0.7"/>
+
+    <!-- Footer URL in Inter -->
+    <text x="525" y="575" text-anchor="middle"
+          font-family="Inter, sans-serif" font-size="32"
+          fill="#555555">
+        invoc8.org/rights
+    </text>
+</svg>

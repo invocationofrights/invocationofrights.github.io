@@ -5,58 +5,45 @@
     <!-- Background -->
     <rect width="1050" height="600" fill="#FFFFFF"/>
 
-    <!-- Top accent bar (≈3 mm) -->
-    <rect width="1050" height="35" fill="#303030"/>
 
-    <!-- Heading in Archivo Black -->
-    <text x="525" y="135" text-anchor="middle"
-          font-family="Archivo Black, sans-serif" font-size="64"
-          letter-spacing="0.5px" fill="#000000">
-        THE INVOCATION OF RIGHTS
+    <!-- Heading -->
+    <text x="525" y="90" text-anchor="middle"
+          font-family="Inter, sans-serif" font-size="54"
+          font-weight="500" font-variant="small-caps"
+          letter-spacing="3.0px" fill="#000000">
+        The Invocation of Rights
     </text>
 
-    <!-- Instruction line in Inter -->
-    <text x="525" y="190" text-anchor="middle"
+    <!-- Instruction in true small‑caps -->
+    <text x="525" y="140" text-anchor="middle"
           font-family="Inter, sans-serif" font-size="36"
-          font-weight="500" letter-spacing="0.25px"
-          fill="#000000">
-        SAY ALL FOUR LINES TOGETHER
+          font-weight="500" font-variant="small-caps"
+          letter-spacing="1.5px" fill="#000000">
+        say all four lines together
     </text>
 
     <!-- Hairline rule -->
-    <line x1="75" y1="210" x2="975" y2="210"
-          stroke="#CCCCCC" stroke-width="0.7"/>
+    <line x1="75" y1="180" x2="975" y2="180"
+          stroke="#999999" stroke-width="1.5"/>
 
-    <!-- Script lines in Inter -->
-    <text x="525" y="275" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="48"
-          fill="#000000">
-        I invoke my right to remain silent.
-    </text>
-    <text x="525" y="339" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="48"
-          fill="#000000">
-        I invoke my right to a lawyer.
-    </text>
-    <text x="525" y="403" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="48"
-          fill="#000000">
-        I don’t consent to any searches.
-    </text>
-    <text x="525" y="467" text-anchor="middle"
-          font-family="Inter, sans-serif" font-size="48"
-          fill="#000000">
-        I want to leave. Am I free to go?
-    </text>
+    <!-- Script lines -->
+    <g font-family="Inter, sans-serif" font-size="48"
+       letter-spacing="0.2px" text-rendering="optimizeLegibility"
+       text-anchor="middle" fill="#000000">
+        <text x="525" y="265">I invoke my right to remain silent.</text>
+        <text x="525" y="327">I invoke my right to a lawyer.</text>
+        <text x="525" y="389">I don’t consent to any searches.</text>
+        <text x="525" y="451">I want to leave. Am I free to go?</text>
+    </g>
 
-    <!-- Hairline rule above footer -->
-    <line x1="75" y1="515" x2="975" y2="515"
-          stroke="#CCCCCC" stroke-width="0.7"/>
+    <!-- Hairline rule -->
+    <line x1="75" y1="505" x2="975" y2="505"
+          stroke="#999999" stroke-width="1.5"/>
 
-    <!-- Footer URL in Inter -->
-    <text x="525" y="575" text-anchor="middle"
+    <!-- Footer -->
+    <text x="525" y="565" text-anchor="middle"
           font-family="Inter, sans-serif" font-size="32"
-          fill="#555555">
+          fill="#555555" letter-spacing="0.25px">
         invoc8.org/rights
     </text>
 </svg>
