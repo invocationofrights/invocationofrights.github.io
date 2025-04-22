@@ -3,13 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "dev": "next dev --turbopack",
+    "gen-manifest": "node -r ts-node/register scripts/build-manifest.cts",
     "gen-redirects": "node -r ts-node/register scripts/generate-redirects.cts",
-    "deploy": "echo invocationofrights.org > out/CNAME && echo true > out/.nojekyll && gh-pages -d out -f -t",
-    "build-deploy": "npm run gen-redirects && npm run build && npm run deploy"
+    "gen-wallet": "ts-node scripts/build-wallet-card.cts",
+    "pre-deploy": "echo invocationofrights.org > out/CNAME && echo true > out/.nojekyll",
+    "build": "npm runnext build",
+    "deploy": "npm run pre-deploy && npm run gen-redirects && npm run gen-manifest && gh-pages -d out -f -t",
+    "build-deploy": "npm run build && npm run deploy"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",
@@ -30,6 +33,8 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.0",
     "gh-pages": "^6.3.0",
+    "pdf-lib": "^1.17.1",
+    "sharp": "^0.34.1",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"

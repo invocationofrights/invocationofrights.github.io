@@ -1,49 +1,43 @@
 // ---------------------------------------------
 // File: src/components/DownloadTile.tsx
 // ---------------------------------------------
-"use client";
+import Image from 'next/image';
 
-import Image from "next/image";
-import logger from "@/lib/logger";
-import React from "react";
-
-interface DownloadTileProps {
+type Props = {
   title: string;
-  thumb: string; // public path to a small preview image
-  href: string; // asset url (pdf, png, etc.)
-  resourceId: string; // unique id for analytics
-}
+  thumb: string;
+  href: string;
+  resourceId: string;
+};
 
-export default function DownloadTile({ title, thumb, href, resourceId }: DownloadTileProps) {
-  const handleClick = () => {
-    // fire GTM/GA event – degrades gracefully if dataLayer missing
-    if (typeof window !== "undefined") {
-      window.dataLayer?.push({
-        event: "resource_download",
-        resource_id: resourceId,
-      });
-    }
-    logger.info("resource_download", { resource_id: resourceId });
-  };
-
+export default function DownloadTile({
+                                       title,
+                                       thumb,
+                                       href,
+                                       resourceId,
+                                     }: Props) {
   return (
     <a
       href={href}
+      data-resource-id={resourceId}
       target="_blank"
       rel="noopener"
-      onClick={handleClick}
-      className="group block rounded-lg border border-neutral-200 dark:border-neutral-800 p-4 hover:shadow-md transition focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="group block border rounded-lg overflow-hidden shadow-sm transition hover:shadow-md"
     >
-      <div className="relative w-full aspect-[4/3] mb-3">
+      {/* thumb wrapper keeps ratio; inner Image uses object-contain */}
+      <div className="relative w-full aspect-[3/2] bg-neutral-100">
         <Image
           src={thumb}
-          alt="Preview of resource"
-          className="rounded-md object-cover"
+          alt={title}
           fill
-          sizes="(max-width: 640px) 100vw, 33vw"
+          sizes="(max-width: 640px) 50vw, 33vw"
+          className="object-contain"
         />
       </div>
-      <span className="font-medium group-hover:text-blue-600">{title}</span>
+
+      <div className="p-3 text-sm font-medium group-hover:underline">
+        {title}
+      </div>
     </a>
   );
 }

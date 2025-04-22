@@ -9,15 +9,15 @@ import NewsletterForm from "@/components/NewsletterForm";
 const quickDownloads = [
   {
     title: "Wallet Card – PDF (EN)",
-    thumb: "/thumbs/wallet_card_en.png",
+    thumb: "/images/wallet_card_front-en.svg",
     href: "/downloads/wallet_card_en.pdf",
     resourceId: "wallet_card_en_pdf",
   },
   {
-    title: "Wallet Card – PNG (EN)",
-    thumb: "/thumbs/wallet_card_en.png",
-    href: "/downloads/wallet_card_en.png",
-    resourceId: "wallet_card_en_png",
+    title: "Wallet Card – SVG (EN)",
+    thumb: "/images/wallet_card_front-en.svg",
+    href: "/images/wallet_card_front-en.svg",
+    resourceId: "wallet_card_en_svg",
   },
   {
     title: "Lock‑screen 9×16 (EN)",
@@ -46,12 +46,6 @@ export default function ResourcesPage() {
           Wallet cards, lock‑screens, teaching decks, research kits — everything
           you need to spread the four‑line script.
         </p>
-        <a
-          href="#quick"
-          className="inline-block px-6 py-3 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
-        >
-          Jump to Quick Downloads ↓
-        </a>
       </header>
 
       {/* Quick downloads */}
