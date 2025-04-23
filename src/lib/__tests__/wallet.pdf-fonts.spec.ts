@@ -1,3 +1,4 @@
+// src/lib/_tests__/wallet.pdf-fonts.spec.ts
 import { describe, it, expect } from 'vitest';
 import { mkdtempSync, readFileSync } from 'node:fs';
 import path from 'node:path';

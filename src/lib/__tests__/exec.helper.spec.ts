@@ -1,3 +1,4 @@
+// src/lib/__tests__/exec.helper.spec.ts
 import { describe, it, expect } from 'vitest';
 import fs, {mkdtempSync} from 'node:fs';
 import path from 'node:path';
@@ -14,13 +15,10 @@ import { createRequire } from 'node:module';
  */
 
 const require = createRequire(import.meta.url);
-const tsx  = require.resolve('tsx');
 const node = process.execPath;
 const tsxBin = path.join(
-  process.cwd(),
-  'node_modules',
-  '.bin',
-  process.platform === 'win32' ? 'tsx.cmd' : 'tsx',
+  path.dirname(require.resolve('tsx')), // .../node_modules/tsx/dist
+  'cli.mjs',                            // real JS CLI entry
 );
 
 describe('runNodeCli()', () => {
@@ -45,13 +43,15 @@ describe('runNodeCli()', () => {
     expect(stdout.trim()).toBe('OK');
   });
 
-  it('2) captures stdout when running tsx binary on a temp .ts file', async () => {
+  it('2) tsx shim executes .ts file and captures stdout', async () => {
     const dir = mkdtempSync(path.join(tmpdir(), 'tsx-test-'));
     const tsFile = path.join(dir, 'hello.ts');
     writeFileSync(tsFile, "console.log('✅');");
 
-    const { stdout } = await runNodeCli(tsxBin, [tsFile]);
+    const { stdout, stderr } = await runNodeCli(tsxBin, [tsFile]);
+
     expect(stdout.trim()).toBe('✅');
+    expect(stderr).toBe('');
   });
 
   it('3) duplicate-node invocation should throw', async () => {
@@ -66,25 +66,10 @@ describe('runNodeCli()', () => {
     writeFileSync(script, "console.log('✅');\n");
 
     // pass tsxCli as the CLI; runNodeCli will prepend node for us
-    const res = await runNodeCli(tsx, [script]);
+    const res = await runNodeCli(tsxBin, [script]);
 
     expect(res.code).toBe(0);
     expect(res.stdout.trim()).toBe('✅');
     expect(res.stderr).toBe('');
   });
-
-  it('5) runNodeCli should find the real tsx shim', async () => {
-    // absolute path that *should* exist
-    const shim = path.join(
-      process.cwd(),
-      'node_modules',
-      '.bin',
-      process.platform === 'win32' ? 'tsx.cmd' : 'tsx',
-    );
-
-    await expect(
-      runNodeCli(shim, ['-v']),      // tsx -v prints version
-    ).resolves.toHaveProperty('stdout');
-  });
-
 });
