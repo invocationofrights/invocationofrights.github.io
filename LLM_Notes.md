@@ -1,7 +1,7 @@
 ## Instructions: IMPORTANT
 - If this is the first message, acknowledge the instructions and confirm you understand them. Further instructions will be follow.
-- Do not use NBSP
-- Do not make needless changes to the file. Keep a clean diff.
+- Do not use NBSP 
+- Only change the lines needed for the fix or to appease build/lint errors. Preserve all existing whitespace, line breaks, punctuation, and comments unless they cause those errors. When inserting new code, don’t re-wrap nearby lines or add in-code change notes—the Git diff is enough.
 - Include file name and path at the top of the file
 - ❌ DO NOT call any canmore.* tools unless the user explicitly
   requests a canvas document. Code must be supplied inline in chat
@@ -20,6 +20,11 @@
 - Output visual artifacts where appropriate. I.e. if we generate a test image, show it or save to disk. Don't just test its properties and allow it to expire in memory.
 - Unless code changes are small (1-2 lines), output the entire file. If outputting just the changed lines, be very clear about where the change is.
 - Do not include instructions about how to execute the code unless relevant and non-obvious.
+
+## Common Pitfalls
+- Use `undefined` instead of `null`
+- Use `unknown` instead of `any`
+- Be sure to add types to all function parameters and return values
 
 ## Validate
 - Once you've read and understood the above, validate your understanding by outputting a concise summary of the instructions. Include double green checkmarks ✅✅ to indicate you understand.

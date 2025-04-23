@@ -5,6 +5,8 @@ import postcss from 'postcss';
 import customProps from 'postcss-custom-properties';
 import { findInterFonts } from './font';
 import logger from './logger';
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
 let wasmReady = false;
 

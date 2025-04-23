@@ -69,8 +69,8 @@ const place = (page: PDFPage, img: PDFImage) => {
 
   /* 2 . embed PNGs into a fresh PDF */
   const pdf  = await PDFDocument.create();
-  const fImg = await pdf.embedPng(frontBuf);
-  const bImg = await pdf.embedPng(backBuf);
+  const fImg = await pdf.embedPng(frontBuf.png);
+  const bImg = await pdf.embedPng(backBuf.png);
 
   const front = pdf.addPage([SHEET_W, SHEET_H]);
   place(front, fImg);

@@ -19,7 +19,7 @@ const svg = (family: string) => `
 </svg>`;
 
 function diffPct(a: PNG, b: PNG) {
-  const diff = pixelmatch(a.data, b.data, null, a.width, a.height);
+  const diff = pixelmatch(a.data, b.data, undefined, a.width, a.height);
   return diff / (a.width * a.height);
 }
 

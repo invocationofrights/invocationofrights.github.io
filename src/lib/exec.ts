@@ -4,7 +4,8 @@ import { promisify } from 'node:util';
 import path from 'node:path';
 import process from 'node:process';
 import { existsSync } from 'node:fs';
-import {createRequire} from "node:module";
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
 
 export interface ExecResult {
   code: number | null;
@@ -12,13 +13,17 @@ export interface ExecResult {
   stderr: string;
 }
 
+interface ExecError extends Error {
+  stdout?: string | Buffer;
+  stderr?: string | Buffer;
+}
+
 const exec = promisify(execFile);
-const require = createRequire(import.meta.url);
 const JS_EXT = new Set(['.js', '.mjs', '.cjs']);
 
 /**
  * Return the *JS* entry file defined in a package.json "bin" field.
- * Works cross‑platform so callers don’t hard‑code dist/cli.mjs paths.
+ * Works cross-platform so callers don’t hard-code dist/cli.mjs paths.
  */
 export function resolveJsCli(pkgName: string): string {
   const pkg = require(`${pkgName}/package.json`);
@@ -51,8 +56,9 @@ export async function runNodeCli(
     maxBuffer: 10 * 1024 * 1024,
     ...options,
   }).catch((err: unknown) => {
+    const e = err as ExecError;
     throw new Error(
-      `CLI failed: ${err}\nstdout:\n${err.stdout?.toString()}\nstderr:\n${err.stderr?.toString()}`,
+      `CLI failed: ${e}\nstdout:\n${e.stdout?.toString()}\nstderr:\n${e.stderr?.toString()}`,
     );
   });
 

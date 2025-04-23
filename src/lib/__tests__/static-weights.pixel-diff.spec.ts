@@ -11,7 +11,8 @@ const demo = (w: number) => `
 </svg>`;
 
 async function pngOf(weight: number) {
-  return PNG.sync.read(await svg2png(demo(weight), 300));
+  const png = await svg2png(demo(weight), 300)
+  return PNG.sync.read(png.png);
 }
 
 describe('static Inter weights differ', () => {

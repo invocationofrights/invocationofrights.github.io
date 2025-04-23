@@ -1,14 +1,14 @@
 // src/lib/__tests__/weight-visual.spec.ts
 import { describe, it, expect } from 'vitest';
-import fs from 'node:fs';
+import fs, {mkdtempSync} from 'node:fs';
 import path from 'node:path';
 import { PNG } from 'pngjs';
 import pixelmatch from 'pixelmatch';
 import { svg2png } from '../svg2png';
+import {tmpdir} from "node:os";
 
 // ───── config ────────────────────────────────────────────────────────────
-const TMP = path.join(process.cwd(), 'tmp');
-fs.mkdirSync(TMP, { recursive: true });
+const TMP = mkdtempSync(path.join(tmpdir(), 'png-weight-'));
 
 const SVG = (weight: number): string => `
 <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
@@ -22,8 +22,8 @@ const SVG = (weight: number): string => `
 // ───── helpers ───────────────────────────────────────────────────────────
 async function raster(weight: number, outfile: string): Promise<PNG> {
   const buf = await svg2png(SVG(weight), 320);          // -> Buffer
-  fs.writeFileSync(outfile, buf);
-  return PNG.sync.read(buf);                            // -> PNG instance
+  fs.writeFileSync(outfile, buf.png);
+  return PNG.sync.read(buf.png);                            // -> PNG instance
 }
 
 function diffPct(a: PNG, b: PNG): number {

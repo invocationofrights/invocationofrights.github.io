@@ -13,7 +13,7 @@ const demo = (w: number) => `
 
 async function renderAndCountDarkPixels(weight: number) {
   const buf = await svg2png(demo(weight), 400);
-  const png = PNG.sync.read(buf);
+  const png = PNG.sync.read(buf.png);
   let dark = 0;
   for (let i = 0; i < png.data.length; i += 4) {
     const [r,g,b] = png.data.slice(i, i+3);

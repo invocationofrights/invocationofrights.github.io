@@ -16,7 +16,7 @@ const svg = (w: number) => `
 </svg>`;
 
 function diffPct(a: PNG, b: PNG) {
-  const diff = pixelmatch(a.data, b.data, null, a.width, a.height);
+  const diff = pixelmatch(a.data, b.data, undefined, a.width, a.height);
   return diff / (a.width * a.height);
 }
 
@@ -33,6 +33,7 @@ describe('Resvg uses Inter, not fallback', () => {
 
     /* 1 . pixel diff must be significant */
     const pct = diffPct(PNG.sync.read(thin.png), PNG.sync.read(heavy.png));
+    console.log(`Pixel diff: ${(pct * 100).toFixed(1)} %`);
     expect(pct).toBeGreaterThan(0.15);
 
     /* 2 . font trace MUST exist and mention Inter */

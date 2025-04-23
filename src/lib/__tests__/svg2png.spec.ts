@@ -10,8 +10,8 @@ describe('svg2png', () => {
       200,
     );
     // crude but fast regression guard
-    expect(buf.byteLength).toBeGreaterThan(200);   // 380 passes, blank-PNG ≈120
+    expect(buf.png.byteLength).toBeGreaterThan(200);   // 380 passes, blank-PNG ≈120
     // Optional: magic number check -> PNG signature
-    expect(buf.readUInt32BE(0)).toBe(0x89504e47);
+    expect(buf.png.readUInt32BE(0)).toBe(0x89504e47);
   });
 });
