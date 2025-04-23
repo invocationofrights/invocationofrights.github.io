@@ -4,7 +4,7 @@
    → Resvg PNG → pdf-lib 4-up duplex PDF
 ---------------------------------------------------------------- */
 
-import { join, relative }   from 'node:path';
+import {dirname, join, relative} from 'node:path';
 import { writeFileSync } from 'node:fs';
 
 import { PDFDocument, rgb, PDFImage, PDFPage } from 'pdf-lib';
@@ -12,6 +12,11 @@ import logger                     from '../src/lib/logger';
 import { getFrontSvg, getBackSvg } from '@/lib/getSvg';
 import { svg2png }                from '@/lib/svg2png';
 import { BUILD }                  from '@/config/build';
+import {mkdirSync} from "fs";
+
+const OUT_PATH = process.env.OUT_PDF || join(
+  process.cwd(), BUILD.DOWNLOADS_DIR, BUILD.WALLET_PDF_OUT,
+);
 
 /* ---------- constants ---------------------------------------- */
 const IN      = 72;
@@ -75,7 +80,7 @@ const place = (page: PDFPage, img: PDFImage) => {
 
   /* 3 . dashed trim guides (one page is enough) */
   const GUIDE = { color: rgb(0.7, 0.7, 0.7), opacity: 0.5, thickness: 0.6,
-    dashArray: [3, 3] as const };
+    dashArray: [3, 3] };
 
   const guides = pdf.getPage(0);
   // vertical
@@ -90,11 +95,11 @@ const place = (page: PDFPage, img: PDFImage) => {
     ...GUIDE });
 
   /* 4 . save */
-  /* 4 . save (unless running under test) */
   if (!process.env.DRY_RUN) {
-    const out = join(process.cwd(), BUILD.DOWNLOADS_DIR, BUILD.WALLET_PDF_OUT);
-    writeFileSync(out, await pdf.save());
-    logger.info(`✓ ${relative(process.cwd(), out)} generated`);
+    /* ensure destination folder exists */
+    mkdirSync(dirname(OUT_PATH), { recursive: true });
+    writeFileSync(OUT_PATH, await pdf.save());
+    logger.info(`✓ ${relative(process.cwd(), OUT_PATH)} generated`);
   } else {
     await pdf.save();            // serialise once to catch encode errors
     logger.info('✓ PDF build (dry-run, not written)');
