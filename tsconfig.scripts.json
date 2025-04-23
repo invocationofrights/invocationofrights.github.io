@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // ♦ lets us write “import … from './foo.ts'”
+    "allowImportingTsExtensions": true,
+    // ♦ emit ES modules so ts-node/esm can execute them
+    "module": "ESNext"
+  },
+  // keep the scope tight — only scripts + libs they import
+  "include": ["scripts/**/*.ts", "src/lib/**/*.ts"]
+}
