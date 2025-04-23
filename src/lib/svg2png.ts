@@ -9,7 +9,8 @@ import logger from './logger';
 let wasmReady = false;
 
 export interface Svg2PngOptions {
-  collectTrace?: boolean;              // capture Resvg font trace
+  collectTrace?: boolean;     // capture Resvg font-trace lines
+  loadSystemFonts?: boolean;  // allow system fonts (default=false)
 }
 
 export interface Svg2PngResult {
@@ -76,10 +77,11 @@ export async function svg2png(
     dpi: 600,
     font: {
       fontFiles: findInterFonts(),
-      loadSystemFonts: false,
+      loadSystemFonts: opts.loadSystemFonts ?? false,
       defaultFontFamily: 'Inter',
     },
   });
+
   const png = Buffer.from(resvg.render().asPng());
 
   if (restore) restore();
