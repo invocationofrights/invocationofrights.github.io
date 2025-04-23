@@ -1,33 +1,23 @@
-import { PDFDocument, PDFName, PDFDict } from 'pdf-lib';
+import { PDFDocument, PDFDict, PDFName } from 'pdf-lib';
 
 /**
- * Extract distinct font names embedded in a PDF.
- *
- * @param pdfBytes A Uint8Array / ArrayBuffer / Node Buffer containing a full PDF file
- * @returns Sorted array of unique font names (e.g. ["Inter", "Helvetica-Bold"])
+ * Extract unique embedded font base names using pdf-lib public API.
+ * Works with pdf-lib ≥ 2.0 which provides context.enumerateIndirectObjects().
  */
-export async function listPdfFonts(pdfBytes: Uint8Array | ArrayBuffer): Promise<string[]> {
-  const doc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
-  const context = doc.context;
+export async function listPdfFonts(bytes: Uint8Array | ArrayBuffer): Promise<string[]> {
+  const doc = await PDFDocument.load(bytes);
+  const found = new Set<string>();
 
-  const out = new Set<string>();
-
-  for (const [, obj] of context.enumerateIndirectObjects()) {
+  // enumerate every indirect PDF object once
+  for (const [, obj] of doc.context.enumerateIndirectObjects()) {
     if (!(obj instanceof PDFDict)) continue;
 
     const type = obj.get(PDFName.of('Type'));
-    if (!(type instanceof PDFName)) continue;
-    if (type.asString() !== 'Font') continue;
+    if (type?.toString() !== '/Font') continue;
 
-    // Prefer BaseFont; fall back to Name if present
-    const base = obj.get(PDFName.of('BaseFont')) ?? obj.get(PDFName.of('Name'));
-    if (base instanceof PDFName) {
-      // strip leading "/" and subset tags (AAAAAA+)
-      const raw = base.asString();
-      const name = raw.replace(/^.*\+/, '');
-      out.add(name);
-    }
+    const base = obj.get(PDFName.of('BaseFont'));
+    if (base) found.add(base.toString().slice(1)); // drop leading slash
   }
 
-  return Array.from(out).sort();
+  return [...found].sort();
 }

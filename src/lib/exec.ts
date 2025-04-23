@@ -3,6 +3,8 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import path from 'node:path';
 import process from 'node:process';
+import { existsSync } from 'node:fs';
+import {createRequire} from "node:module";
 
 export interface ExecResult {
   code: number | null;
@@ -11,10 +13,24 @@ export interface ExecResult {
 }
 
 const exec = promisify(execFile);
-
-/** JS file extensions that need `node` in front */
+const require = createRequire(import.meta.url);
 const JS_EXT = new Set(['.js', '.mjs', '.cjs']);
 
+/**
+ * Return the *JS* entry file defined in a package.json "bin" field.
+ * Works cross‑platform so callers don’t hard‑code dist/cli.mjs paths.
+ */
+export function resolveJsCli(pkgName: string): string {
+  const pkg = require(`${pkgName}/package.json`);
+  const bin  = typeof pkg.bin === 'string' ? pkg.bin
+    : pkg.bin?.[pkgName] ?? Object.values(pkg.bin ?? {})[0];
+  if (!bin) throw new Error(`Package ${pkgName} has no bin entry`);
+  const abs = path.resolve(path.dirname(require.resolve(`${pkgName}/package.json`)), bin);
+  if (!existsSync(abs)) throw new Error(`Resolved CLI not found: ${abs}`);
+  return abs;
+}
+
+/** Run a CLI, capturing stdout/stderr as strings. */
 export async function runNodeCli(
   cliPath: string,
   argv: string[],
