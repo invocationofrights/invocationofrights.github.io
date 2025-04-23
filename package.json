@@ -10,6 +10,7 @@
     "gen-manifest": "node -r ts-node/register scripts/build-manifest.cts",
     "gen-redirects": "node -r ts-node/register scripts/generate-redirects.cts",
     "gen-wallet": "tsx scripts/build-wallet-card.ts",
+    "gen-context": "tsx scripts/generate-project-context.ts > project-context.json",
     "pre-deploy": "echo invocationofrights.org > out/CNAME && echo true > out/.nojekyll",
     "build": "npm runnext build",
     "deploy": "npm run pre-deploy && npm run gen-redirects && npm run gen-manifest && gh-pages -d out -f -t",

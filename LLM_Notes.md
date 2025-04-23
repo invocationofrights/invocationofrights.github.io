@@ -1,8 +1,13 @@
 ## Instructions: IMPORTANT
+- If this is the first message, acknowledge the instructions and confirm you understand them. Further instructions will be follow.
 - Do not use NBSP
 - Do not make needless changes to the file. Keep a clean diff.
 - Include file name and path at the top of the file
-- Output code in chat. Do not use the code editor feature. It is buggy.
+- ❌ DO NOT call any canmore.* tools unless the user explicitly
+  requests a canvas document. Code must be supplied inline in chat
+  using triple back-tick blocks.
+- Follow SOLID principles: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion. Don't Repeat Yourself.
+- When code changes are necessary, output the code without requiring me to confirm that I want you to output the code.
 
 ## Process
 - Build reusable components and libraries. Don't put image processing code in the tests, move it to a library. Then call that code from your test.
