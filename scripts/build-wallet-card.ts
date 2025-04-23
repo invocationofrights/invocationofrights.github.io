@@ -4,15 +4,14 @@
    → Resvg PNG → pdf-lib 4-up duplex PDF
 ---------------------------------------------------------------- */
 
-import { dirname, join, relative }   from 'node:path';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { join, relative }   from 'node:path';
+import { writeFileSync } from 'node:fs';
 
 import { PDFDocument, rgb, PDFImage, PDFPage } from 'pdf-lib';
-import { initWasm }               from '@resvg/resvg-wasm';
 import logger                     from '../src/lib/logger';
-import { getFrontSvg, getBackSvg } from '../src/lib/getSvg';
-import { svg2png }                from '../src/lib/svg2png';
-import { BUILD }                  from '../src/config/build';
+import { getFrontSvg, getBackSvg } from '@/lib/getSvg';
+import { svg2png }                from '@/lib/svg2png';
+import { BUILD }                  from '@/config/build';
 
 /* ---------- constants ---------------------------------------- */
 const IN      = 72;
@@ -53,11 +52,6 @@ const place = (page: PDFPage, img: PDFImage) => {
 
 /* ---------- main --------------------------------------------- */
 (async () => {
-  /* 0 . initialise Resvg WASM once */
-  const wasmPath = require.resolve('@resvg/resvg-wasm/index_bg.wasm');
-  await initWasm(readFileSync(wasmPath));
-  logger.info('Resvg WASM initialised');
-
   /* 1 . read + rasterise the two SVGs */
   const frontSvg = getFrontSvg();
   const backSvg  = getBackSvg();
@@ -81,7 +75,7 @@ const place = (page: PDFPage, img: PDFImage) => {
 
   /* 3 . dashed trim guides (one page is enough) */
   const GUIDE = { color: rgb(0.7, 0.7, 0.7), opacity: 0.5, thickness: 0.6,
-    dashArray: [3, 3] };
+    dashArray: [3, 3] as const };
 
   const guides = pdf.getPage(0);
   // vertical
@@ -96,9 +90,15 @@ const place = (page: PDFPage, img: PDFImage) => {
     ...GUIDE });
 
   /* 4 . save */
-  const out = join(process.cwd(), BUILD.DOWNLOADS_DIR, BUILD.WALLET_PDF_OUT);
-  writeFileSync(out, await pdf.save());
-  logger.info(`✓ ${relative(process.cwd(), out)} generated`);
+  /* 4 . save (unless running under test) */
+  if (!process.env.DRY_RUN) {
+    const out = join(process.cwd(), BUILD.DOWNLOADS_DIR, BUILD.WALLET_PDF_OUT);
+    writeFileSync(out, await pdf.save());
+    logger.info(`✓ ${relative(process.cwd(), out)} generated`);
+  } else {
+    await pdf.save();            // serialise once to catch encode errors
+    logger.info('✓ PDF build (dry-run, not written)');
+  }
 })().catch((err) => {
   logger.error('Wallet-card build failed', err);
   process.exit(1);
