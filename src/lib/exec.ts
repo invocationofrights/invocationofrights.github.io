@@ -1,6 +1,7 @@
 // src/lib/exec.ts
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import path from 'node:path';
 import process from 'node:process';
 
 export interface ExecResult {
@@ -12,38 +13,50 @@ export interface ExecResult {
 const exec = promisify(execFile);
 
 /**
- * Cross‑platform helper to run a Node‑based CLI (e.g. tsx) and capture
- * stdout / stderr as **strings** so tests can assert on them.
+ * Run a CLI and capture stdout / stderr as **strings**.
  *
- * @param cliPath   Absolute path to the JS entry (e.g. require.resolve('tsx'))
- * @param args      Remaining argv items, NOT including `node` or the cliPath
- * @param env       Extra env vars to merge with process.env
- * @returns         ExecResult with .stdout / .stderr already toString()‑ed
- * @throws          Re‑throws the underlying spawn error OR non‑zero exit.
+ * ─ Behaviour ────────────────────────────────────────────────
+ * • If `cliPath` _is already_ the current Node executable
+ *   (e.g. process.execPath, "node", "node.exe"), run it
+ *   directly:    node [...argv]
+ *
+ * • Otherwise prepend the active Node binary so we always
+ *   execute a JS entry file cross-platform:
+ *      node  <cliPath> [...argv]
+ *
+ * • Throws if the child exits with non-zero code.
  */
 export async function runNodeCli(
   cliPath: string,
-  args: string[] = [],
-  env: NodeJS.ProcessEnv = {},
+  argv: string[],
+  options: Parameters<typeof exec>[2] = {},
 ): Promise<ExecResult> {
-  const nodeExe = process.execPath; // current Node runtime
-
-  try {
-    const { stdout, stderr } = await exec(nodeExe, [cliPath, ...args], {
-      env: { ...process.env, ...env },
-      maxBuffer: 10 * 1024 * 1024, // 10 MB
-    });
-
-    return {
-      code: 0,
-      stdout: stdout.toString(),
-      stderr: stderr.toString(),
-    };
-  } catch (err: unknown) {
-    const stdout = err?.stdout?.toString?.() ?? '';
-    const stderr = err?.stderr?.toString?.() ?? '';
-    throw new Error(
-      `CLI failed: ${err}\nstdout:\n${stdout}\n\nstderr:\n${stderr}`,
+  const isNodeExe = (() => {
+    const cliBase = path.basename(cliPath).toLowerCase();
+    const nodeBase = path.basename(process.execPath).toLowerCase();
+    return (
+      cliPath === process.execPath ||
+      cliBase === 'node' ||
+      cliBase === 'node.exe' ||
+      cliBase === nodeBase
     );
-  }
+  })();
+
+  const cmd = isNodeExe ? cliPath : process.execPath;
+  const args = isNodeExe ? argv : [cliPath, ...argv];
+
+  const { stdout, stderr } = await exec(cmd, args, {
+    maxBuffer: 10 * 1024 * 1024,
+    ...options,
+  }).catch((err: unknown) => {
+    throw new Error(
+      `CLI failed: ${err}\nstdout:\n${err.stdout?.toString()}\nstderr:\n${err.stderr?.toString()}`,
+    );
+  });
+
+  return {
+    code: 0,
+    stdout: stdout.toString(),
+    stderr: stderr.toString(),
+  };
 }
