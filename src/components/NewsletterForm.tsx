@@ -14,7 +14,7 @@ export default function NewsletterForm() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    const url = SITE.EMAIL_COLLECTION;
+    const url = SITE.EMAIL_FORM;
     const query = new URLSearchParams([...formData.entries()] as [string, string][]).toString();
 
     window.dataLayer?.push({

@@ -1,3 +1,4 @@
+// src/scripts/build-manifest.ts
 import { readdirSync, mkdirSync, writeFileSync } from 'fs';
 import { join, relative } from 'path';
 import { SITE }  from '../src/config/site';

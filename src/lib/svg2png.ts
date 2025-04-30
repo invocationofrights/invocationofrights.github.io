@@ -6,8 +6,9 @@ import customProps from 'postcss-custom-properties';
 import { findInterFonts } from './font';
 import logger from './logger';
 import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
+import type { WriteStream } from 'node:tty';
 
+const require = createRequire(import.meta.url);
 let wasmReady = false;
 
 export interface Svg2PngOptions {
@@ -59,15 +60,34 @@ export async function svg2png(
   let restore: (() => void) | undefined;
 
   if (opts.collectTrace) {
-    const hook = (s: NodeJS.WriteStream) => {
-      const orig = s.write;
-      s.write = function (chunk: any, enc?: any, cb?: any) {
-        const str = Buffer.isBuffer(chunk) ? chunk.toString('utf8') : String(chunk);
+    const hook = (s: WriteStream) => {
+      const orig = s.write.bind(s); // capture original write
+
+      function patchedWrite(
+        chunk: string | Uint8Array,
+        encodingOrCallback?: BufferEncoding | ((err?: Error) => void),
+        maybeCallback?: (err?: Error) => void
+      ): boolean {
+        const str = Buffer.isBuffer(chunk)
+          ? chunk.toString('utf8')
+          : typeof chunk === 'string'
+            ? chunk
+            : '';
+
         if (str.includes('resvg_js::fonts')) trace.push(str.trim());
-        return orig.call(this, chunk, enc, cb);
+
+        return typeof encodingOrCallback === 'function'
+          ? orig(chunk, encodingOrCallback)
+          : orig(chunk, encodingOrCallback, maybeCallback);
+      }
+
+      s.write = patchedWrite as typeof s.write;
+
+      return () => {
+        s.write = orig;
       };
-      return () => { s.write = orig; };
     };
+
     const u1 = hook(process.stdout);
     const u2 = hook(process.stderr);
     restore = () => { u1(); u2(); };

@@ -1,3 +1,4 @@
+// src/scripts/generate-redirects.ts
 /**
  * Generate /public/go/<slug>/index.html meta‑refresh pages
  * from redirects.json

@@ -20,6 +20,5 @@ export default function QrSvg({ value, size = 300, error, className }: Props) {
 
   if (!svg) return <p className="mt-6 text-center text-gray-600">Generating…</p>;
 
-  /* eslint-disable-next-line react/no-danger */
   return <div className={className} dangerouslySetInnerHTML={{ __html: svg }} />;
 }

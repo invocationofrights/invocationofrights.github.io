@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-import { optimize } from 'svgo';
 import postcss from 'postcss';
 import customProps from 'postcss-custom-properties';
 import { getFrontSvg } from '../getSvg';
