@@ -13,7 +13,8 @@
     "gen-context": "tsx scripts/generate-project-context.ts > project-context.json",
     "pre-deploy": "echo invocationofrights.org > out/CNAME && echo true > out/.nojekyll",
     "build": "next build",
-    "deploy": "npm run pre-deploy && npm run gen-redirects && npm run gen-manifest && gh-pages -d out -f -t",
+    "deploy": "npm run pre-deploy && npm run gen-redirects && npm run gen-manifest && npm run github-pages",
+    "github-pages": "gh-pages -d out -f -t",
     "build-deploy": "npm run build && npm run deploy",
     "test": "cross-env RUST_LOG=resvg_js::fonts=trace vitest run",
     "test:watch": "vitest"
