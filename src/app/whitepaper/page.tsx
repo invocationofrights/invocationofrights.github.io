@@ -19,7 +19,7 @@ export default function WhitepaperPage() {
 
       <div className="mt-8">
         <Link
-          href="/docs/invocation_whitepaper.pdf"
+          href="https://invocationofrights.org/invocation-whitepaper/Invocation_of_Rights.pdf"
           target="_blank"
           rel="noopener"
           className="inline-block bg-blue-600 text-white px-6 py-3 rounded-md text-base font-medium hover:bg-blue-700 transition"
