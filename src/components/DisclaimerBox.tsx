@@ -22,7 +22,7 @@ export default function DisclaimerBox() {
             requirements.
           </li>
           <li>
-            After speaking it, remain silent except for required identification.
+            After speaking it, remain silent except to identify yourself (if required).
           </li>
           <li>
             This site provides civic education—not individual legal advice.

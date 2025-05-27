@@ -38,28 +38,28 @@ export default function ForOfficersPage() {
       {/* FAQ */}
       <OfficerFAQ />
 
-      {/* Resources */}
-      <section id="resources" className="space-y-4">
-        <h2 className="text-2xl font-semibold">Quick Resources</h2>
-        <ul className="list-disc pl-5 space-y-2">
-          <li>
-            <Link
-              href="/docs/roll‑call_onepager.pdf"
-              className="text-blue-600 hover:underline"
-            >
-              Roll‑call one‑pager&nbsp;⇩
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/docs/bodycam_checklist.pdf"
-              className="text-blue-600 hover:underline"
-            >
-              Body‑cam checklist&nbsp;⇩
-            </Link>
-          </li>
-        </ul>
-      </section>
+      {/*/!* Resources *!/*/}
+      {/*<section id="resources" className="space-y-4">*/}
+      {/*  <h2 className="text-2xl font-semibold">Quick Resources</h2>*/}
+      {/*  <ul className="list-disc pl-5 space-y-2">*/}
+      {/*    <li>*/}
+      {/*      <Link*/}
+      {/*        href="/docs/roll‑call_onepager.pdf"*/}
+      {/*        className="text-blue-600 hover:underline"*/}
+      {/*      >*/}
+      {/*        Roll‑call one‑pager&nbsp;⇩*/}
+      {/*      </Link>*/}
+      {/*    </li>*/}
+      {/*    <li>*/}
+      {/*      <Link*/}
+      {/*        href="/docs/bodycam_checklist.pdf"*/}
+      {/*        className="text-blue-600 hover:underline"*/}
+      {/*      >*/}
+      {/*        Body‑cam checklist&nbsp;⇩*/}
+      {/*      </Link>*/}
+      {/*    </li>*/}
+      {/*  </ul>*/}
+      {/*</section>*/}
 
       {/* Invitation */}
       <section id="pilot" className="mt-12 p-6 rounded-md border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 not-prose">

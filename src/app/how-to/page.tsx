@@ -7,8 +7,8 @@ import UsageIcons        from '@/components/UsageIcons';
 import ToneTips          from '@/components/ToneTips';
 import PracticeDrill     from '@/components/PracticeDrill';
 import DisclaimerBox     from '@/components/DisclaimerBox';
-import DownloadsSection  from '@/components/DownloadsSection';
-import SocialProof       from '@/components/SocialProof';
+// import DownloadsSection  from '@/components/DownloadsSection';
+// import SocialProof       from '@/components/SocialProof';
 import InvolveTeaser     from '@/components/InvolveTeaser';
 
 export const metadata = {
@@ -35,11 +35,11 @@ export default function HowToPage() {
       {/* 5. Limits / caveats */}
       <DisclaimerBox />
 
-      {/* 6. Downloads & shareables */}
-      <DownloadsSection />
+      {/*/!* 6. Downloads & shareables *!/*/}
+      {/*<DownloadsSection />*/}
 
-      {/* 7. Social proof */}
-      <SocialProof />
+      {/*/!* 7. Social proof *!/*/}
+      {/*<SocialProof />*/}
 
       {/* 8. Get‑involved teaser */}
       <InvolveTeaser />
