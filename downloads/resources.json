@@ -1,0 +1,8 @@
+{
+  "resources": {
+    "default": "/downloads/resources.json"
+  },
+  "wallet_card_en": {
+    "default": "/downloads/wallet_card_en.pdf"
+  }
+}

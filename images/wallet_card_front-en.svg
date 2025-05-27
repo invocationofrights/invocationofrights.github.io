@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1050" height="600" viewBox="0 0 1050 600">
+
+    <!-- =======  CENTRAL STYLE DEFINITIONS  ======= -->
+    <style>
+        /* Global variables */
+        :root {
+        --color-text: #000000;
+        --color-hrule: #999999;
+        --color-footer: #444444;
+        --hrule-width: 1.5;
+
+        --font: "Inter", sans-serif;
+        --header-size: 54px;
+        --header-weight: 500;
+        --header-spacing: 4px;
+
+        --subheader-size: 36px;
+        --subheader-weight: 100;
+        --subheader-spacing: 1.5px;
+
+        --script-size: 40px;
+        --script-weight: 300;
+        --script-spacing: 0.2px;
+
+        --footer-size: 26px;
+        --footer-weight: 100;
+        --footer-spacing: 0.25px;
+        }
+
+        /* Structural classes */
+        .heading { text-anchor: middle;
+        font-family: var(--font);
+        font-size: var(--header-size);
+        font-weight: var(--header-weight);
+        font-variant: small-caps;
+        letter-spacing: var(--header-spacing);
+        fill: var(--color-text); }
+
+        .subheader { text-anchor: middle;
+        font-family: var(--font);
+        font-size: var(--subheader-size);
+        font-weight: var(--subheader-weight);
+        font-variant: small-caps;
+        letter-spacing: var(--subheader-spacing);
+        fill: var(--color-text); }
+
+        .script { text-anchor: middle;
+        font-family: var(--font);
+        font-size: var(--script-size);
+        letter-spacing: var(--script-spacing);
+        font-weight: var(--script-weight);
+        text-rendering: optimizeLegibility;
+        fill: var(--color-text); }
+
+        .hrule { stroke: var(--color-hrule); stroke-width: var(--hrule-width); }
+
+        .footer { text-anchor: middle;
+        font-family: var(--font);
+        font-size: var(--footer-size);
+        letter-spacing: var(--footer-spacing);
+        font-weight: var(--footer-weight);
+        fill: var(--color-footer); }
+    </style>
+
+    <!-- =======  ARTWORK  ======= -->
+    <rect width="1050" height="600" fill="#FFFFFF"/>
+
+    <!-- Heading & instruction -->
+    <text class="heading" x="525" y="90">
+        The Invocation of Rights
+    </text>
+
+    <text class="subheader" x="525" y="140">
+        say all four lines together
+    </text>
+
+    <!-- hrule rules -->
+    <line class="hrule" x1="75" y1="180" x2="975" y2="180"/>
+    <line class="hrule" x1="75" y1="505" x2="975" y2="505"/>
+
+    <!-- Script block -->
+    <g class="script">
+        <text x="525" y="245">I invoke my right to remain silent.</text>
+        <text x="525" y="315">I invoke my right to a lawyer.</text>
+        <text x="525" y="385">I don’t consent to any searches.</text>
+        <text x="525" y="455">I want to leave. Am I free to go?</text>
+    </g>
+
+    <!-- Footer -->
+    <text class="footer" x="525" y="565">
+        invoc8.org/rights
+    </text>
+</svg>
