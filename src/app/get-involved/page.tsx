@@ -41,7 +41,7 @@ export default function GetInvolvedPage() {
           </Link>
           <br />
           <Link
-            href="/assets/social_card.png"
+            href="/images/wallet_card_front-en.svg"
             download
             className="inline-block text-blue-600 underline"
             data-analytics="download_socialcard"
@@ -51,31 +51,31 @@ export default function GetInvolvedPage() {
         </div>
       </section>
 
-      {/* 2. Teach it */}
-      <section>
-        <h2>🎓 Teach the Script</h2>
-        <p>
-          Use our free kit to run a 15-minute roleplay in your classroom,
-          clinic, or community group.
-        </p>
-        <ul className="list-disc pl-5 space-y-1">
-          <li>
-            <Link href="/assets/teaching_guide.pdf" target="_blank" className="underline">
-              Classroom guide PDF
-            </Link>
-          </li>
-          <li>
-            <Link href="/assets/poster.pdf" target="_blank" className="underline">
-              Printable poster
-            </Link>
-          </li>
-          <li>
-            <Link href="/how-to" className="underline">
-              Practice it yourself first →
-            </Link>
-          </li>
-        </ul>
-      </section>
+      {/*/!* 2. Teach it *!/*/}
+      {/*<section>*/}
+      {/*  <h2>🎓 Teach the Script</h2>*/}
+      {/*  <p>*/}
+      {/*    Use our free kit to run a 15-minute roleplay in your classroom,*/}
+      {/*    clinic, or community group.*/}
+      {/*  </p>*/}
+      {/*  <ul className="list-disc pl-5 space-y-1">*/}
+      {/*    <li>*/}
+      {/*      <Link href="/assets/teaching_guide.pdf" target="_blank" className="underline">*/}
+      {/*        Classroom guide PDF*/}
+      {/*      </Link>*/}
+      {/*    </li>*/}
+      {/*    <li>*/}
+      {/*      <Link href="/assets/poster.pdf" target="_blank" className="underline">*/}
+      {/*        Printable poster*/}
+      {/*      </Link>*/}
+      {/*    </li>*/}
+      {/*    <li>*/}
+      {/*      <Link href="/how-to" className="underline">*/}
+      {/*        Practice it yourself first →*/}
+      {/*      </Link>*/}
+      {/*    </li>*/}
+      {/*  </ul>*/}
+      {/*</section>*/}
 
       {/* 3. Translate or localize */}
       <section>
